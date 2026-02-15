@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>顧客マスタ登録★修正中12</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+    }
+    .header {
+      background: #1d2036;
+      color: white;
+      padding: 2rem 0;
+      margin-bottom: 2rem;
+    }
+    .card {
+      border: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 1.5rem;
+    }
+    .card-header {
+      background-color: #1d2036;
+      color: white;
+      font-weight: bold;
+    }
+    .form-label {
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .required {
+      color: #dc3545;
+    }
+    .btn-primary {
+      background-color: #1d2036;
+      border-color: #1d2036;
+    }
+    .btn-primary:hover {
+      background-color: #5568d3;
+      border-color: #5568d3;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="mb-0">
+            <i class="bi bi-person-plus"></i> 顧客マスタ登録
+          </h1>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+          <span id="userInfo" class="text-white me-2" style="font-size: 0.9rem;"></span>
+          <a href="?page=customer-list" class="btn btn-light btn-sm">
+            <i class="bi bi-people"></i> 顧客一覧
+          </a>
+          <a href="#" class="btn btn-light btn-sm" onclick="event.preventDefault(); google.script.run.withSuccessHandler(function(u){window.top.location.href=u;}).getWebAppUrl();">
+            <i class="bi bi-house"></i> ダッシュボードへ
+          </a>
+          <a href="?page=logout" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-box-arrow-right"></i> ログアウト
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-clipboard-data"></i> 顧客情報入力</h5>
+      </div>
+      <div class="card-body">
+        <form id="customerForm">
+          <div class="row g-3">
+            <!-- 店舗 -->
+            <div class="col-md-6">
+              <label for="store" class="form-label">店舗 <span class="required">*</span></label>
+              <select class="form-select" id="store" required>
+                <option value="">選択してください</option>
+              </select>
+            </div>
+
+            <!-- 担当者 -->
+            <div class="col-md-6">
+              <label for="staffPerson" class="form-label">担当者</label>
+              <select class="form-select" id="staffPerson">
+                <option value="">選択してください</option>
+              </select>
+            </div>
+
+            <!-- 体験/入会ステータス -->
+            <div class="col-md-6">
+              <label for="status" class="form-label">体験/入会 <span class="required">*</span></label>
+              <select class="form-select" id="status" required>
+                <option value="">選択してください</option>
+                <option value="体験">体験</option>
+                <option value="入会">入会</option>
+              </select>
+            </div>
+
+            <!-- 日付 -->
+            <div class="col-md-6">
+              <label for="date" class="form-label">日付 <span class="required">*</span></label>
+              <input type="date" class="form-control" id="date" required>
+            </div>
+
+            <!-- 名前 -->
+            <div class="col-md-6">
+              <label for="name" class="form-label">名前 <span class="required">*</span></label>
+              <input type="text" class="form-control" id="name" required>
+            </div>
+
+            <!-- 性別 -->
+            <div class="col-md-4">
+              <label for="gender" class="form-label">性別</label>
+              <select class="form-select" id="gender">
+                <option value="">選択してください</option>
+                <option value="男性">男性</option>
+                <option value="女性">女性</option>
+                <option value="その他">その他</option>
+              </select>
+            </div>
+
+            <!-- 年齢 -->
+            <div class="col-md-4">
+              <label for="age" class="form-label">年齢</label>
+              <input type="number" class="form-control" id="age" min="0" max="150">
+            </div>
+
+            <!-- 生年月日 -->
+            <div class="col-md-4">
+              <label for="birthday" class="form-label">生年月日</label>
+              <input type="date" class="form-control" id="birthday">
+            </div>
+
+            <!-- 住所 -->
+            <div class="col-md-12">
+              <label for="address" class="form-label">住所</label>
+              <input type="text" class="form-control" id="address">
+            </div>
+
+            <!-- 家族構成 -->
+            <div class="col-md-6">
+              <label for="family" class="form-label">家族構成</label>
+              <input type="text" class="form-control" id="family">
+            </div>
+
+            <!-- 入会目的・継続理由 -->
+            <div class="col-md-6">
+              <label for="purpose" class="form-label">入会目的・継続理由</label>
+              <input type="text" class="form-control" id="purpose">
+            </div>
+
+            <!-- 何で知ったか -->
+            <div class="col-md-6">
+              <label for="source" class="form-label">何で知ったか</label>
+              <input type="text" class="form-control" id="source">
+            </div>
+
+            <!-- ポスティング日 -->
+            <div class="col-md-6">
+              <label for="postingDate" class="form-label">ポスティング日</label>
+              <input type="date" class="form-control" id="postingDate">
+            </div>
+
+            <!-- お問い合わせ日時 -->
+            <div class="col-md-6">
+              <label for="inquiryDateTime" class="form-label">お問い合わせ日時</label>
+              <input type="datetime-local" class="form-control" id="inquiryDateTime">
+            </div>
+
+            <!-- エリア -->
+            <div class="col-md-6">
+              <label for="area" class="form-label">エリア</label>
+              <input type="text" class="form-control" id="area">
+            </div>
+
+            <!-- 封筒 -->
+            <div class="col-md-6">
+              <label for="envelope" class="form-label">封筒</label>
+              <input type="text" class="form-control" id="envelope">
+            </div>
+
+            <!-- 決めて（未入会の場合は不成約理由） -->
+            <div class="col-md-6">
+              <label for="decision" class="form-label">決めて（未入会の場合は不成約理由）</label>
+              <input type="text" class="form-control" id="decision">
+            </div>
+
+            <!-- 担当 -->
+            <div class="col-md-6">
+              <label for="staff" class="form-label">担当</label>
+              <input type="text" class="form-control" id="staff">
+            </div>
+
+            <!-- コース -->
+            <div class="col-md-6">
+              <label for="course" class="form-label">コース</label>
+              <select class="form-select" id="course">
+                <option value="">選択してください</option>
+              </select>
+            </div>
+
+            <!-- 支払い状況 -->
+            <div class="col-md-6">
+              <label for="paymentStatus" class="form-label">支払い状況</label>
+              <select class="form-select" id="paymentStatus">
+                <option value="">選択してください</option>
+                <option value="済">済</option>
+                <option value="未払い">未払い</option>
+                <option value="一部支払い">一部支払い</option>
+              </select>
+            </div>
+
+            <!-- 補足 -->
+            <div class="col-md-12">
+              <label for="supplement" class="form-label">補足</label>
+              <textarea class="form-control" id="supplement" rows="3"></textarea>
+            </div>
+
+            <!-- 売上 -->
+            <div class="col-md-6">
+              <label for="sales" class="form-label">売上</label>
+              <input type="text" class="form-control" id="sales" placeholder="例: 36300">
+            </div>
+
+            <!-- 値段/回 -->
+            <div class="col-md-6">
+              <label for="unitPrice" class="form-label">値段/回</label>
+              <input type="text" class="form-control" id="unitPrice" placeholder="例: 8250/回">
+            </div>
+          </div>
+
+          <div class="d-grid gap-2 mt-4">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="bi bi-check-circle"></i> 登録
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // グローバルエラーハンドラー
+    window.addEventListener('error', function(event) {
+      // postMessage関連のエラーは無視（Google Apps Scriptの内部通信の問題）
+      if (event.message && (
+          event.message.includes('postMessage') || 
+          event.message.includes('script.google.com') ||
+          event.message.includes('script.googleusercontent.com')
+      )) {
+        console.warn('postMessageエラー（無視）:', event.message);
+        return;
+      }
+      
+      console.error('グローバルエラー:', event.error);
+      console.error('エラーメッセージ:', event.message);
+      console.error('エラーファイル:', event.filename);
+      console.error('エラー行:', event.lineno);
+    });
+
+    window.addEventListener('unhandledrejection', function(event) {
+      // postMessage関連のエラーは無視
+      const reasonStr = event.reason ? (typeof event.reason === 'string' ? event.reason : JSON.stringify(event.reason)) : '';
+      if (reasonStr.includes('postMessage') || 
+          reasonStr.includes('script.google.com') ||
+          reasonStr.includes('script.googleusercontent.com')) {
+        console.warn('postMessage Promise拒否（無視）:', event.reason);
+        event.preventDefault();
+        return;
+      }
+      
+      console.error('未処理のPromise拒否:', event.reason);
+      console.error('エラー詳細:', JSON.stringify(event.reason));
+      event.preventDefault(); // デフォルトのエラー表示を防ぐ
+      
+      // エラーメッセージを構築
+      let errorMsg = '不明なエラー';
+      if (typeof event.reason === 'string') {
+        errorMsg = event.reason;
+      } else if (event.reason && event.reason.message) {
+        errorMsg = event.reason.message;
+      } else if (event.reason && event.reason.toString) {
+        errorMsg = event.reason.toString();
+      }
+      
+      // ユーザーフレンドリーなエラーメッセージを表示
+      if (!errorMsg.includes('postMessage') && !errorMsg.includes('script.google')) {
+        alert('エラーが発生しました: ' + errorMsg + '\n\n詳細はブラウザのコンソール（F12）を確認してください。');
+      }
+    });
+
+    // グローバル変数
+    let currentSession = null;
+    let baseUrl = '';
+
+    // ページ読み込み時に初期化
+    window.onload = function() {
+      // ベースURLを取得してリンクを更新
+      google.script.run
+        .withSuccessHandler(function(url) {
+          baseUrl = url || '';
+          updateLinks();
+        })
+        .withFailureHandler(function(error) {
+          console.error('ベースURL取得エラー:', error);
+        })
+        .getWebAppUrl();
+      
+      checkSession();
+    };
+
+    // リンクを動的に更新（baseUrl + sessionId でリンク切れを防ぐ）
+    function updateLinks() {
+      if (!baseUrl) return;
+      const sid = (currentSession && currentSession.sessionId) ? currentSession.sessionId : '';
+      const sessionSuffix = sid ? '&sessionId=' + encodeURIComponent(sid) : '';
+      document.querySelectorAll('a[href^="?page="]').forEach(function(link) {
+        const href = link.getAttribute('href');
+        link.setAttribute('href', baseUrl + href + (href.indexOf('sessionId=') < 0 ? sessionSuffix : ''));
+      });
+    }
+
+    // セッション確認
+    function checkSession() {
+      // URLパラメータからセッションIDを取得
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlSessionId = urlParams.get('sessionId');
+      
+      let sessionData = sessionStorage.getItem('userSession');
+      
+      // URLにセッションIDがあり、sessionStorageにセッションがない場合
+      if (urlSessionId && !sessionData) {
+        console.log('URLからセッションIDを取得:', urlSessionId);
+        google.script.run
+          .withSuccessHandler(function(result) {
+            if (result && result.success) {
+              // セッション情報を取得
+              google.script.run
+                .withSuccessHandler(function(session) {
+                  if (session) {
+                    sessionStorage.setItem('userSession', JSON.stringify(session));
+                    currentSession = session;
+                    initializeForm();
+                  } else {
+                    redirectToLogin();
+                  }
+                })
+                .withFailureHandler(function(error) {
+                  console.error('セッション取得エラー:', error);
+                  redirectToLogin();
+                })
+                .getSession(urlSessionId);
+            } else {
+              redirectToLogin();
+            }
+          })
+          .withFailureHandler(function(error) {
+            console.error('セッション確認エラー:', error);
+            redirectToLogin();
+          })
+          .setSession(urlSessionId);
+        return;
+      }
+      
+      if (!sessionData) {
+        redirectToLogin();
+        return;
+      }
+
+      try {
+        const session = JSON.parse(sessionData);
+        currentSession = session;
+
+        // サーバー側でもセッションを設定
+        if (session.sessionId) {
+          google.script.run
+            .withSuccessHandler(function(result) {
+              if (result && !result.success) {
+                sessionStorage.removeItem('userSession');
+                currentSession = null;
+                redirectToLogin();
+              } else {
+                initializeForm();
+              }
+            })
+            .withFailureHandler(function(error) {
+              console.error('セッション設定エラー:', error);
+              console.error('エラー詳細:', JSON.stringify(error));
+              // エラーがあっても続行（セッションが無効な場合でもフォームは表示）
+              try {
+                initializeForm();
+              } catch (e) {
+                console.error('フォーム初期化エラー:', e);
+                alert('フォームの初期化に失敗しました。ページを再読み込みしてください。');
+              }
+            })
+            .setSession(session.sessionId);
+        } else {
+          initializeForm();
+        }
+      } catch (error) {
+        console.error('セッション確認エラー:', error);
+        sessionStorage.removeItem('userSession');
+        redirectToLogin();
+      }
+    }
+    
+    // ログイン画面へリダイレクト
+    function redirectToLogin() {
+      google.script.run
+        .withSuccessHandler(function(url) {
+          window.top.location.href = url + '?page=login';
+        })
+        .withFailureHandler(function() {
+          window.top.location.href = '?page=login';
+        })
+        .getWebAppUrl();
+    }
+
+    // フォーム初期化
+    function initializeForm() {
+      const sessionId = currentSession ? currentSession.sessionId : null;
+      
+      // 上部の「顧客一覧」等のリンクを正しいURL（baseUrl + sessionId）に更新
+      updateLinks();
+
+      // ユーザー情報を表示
+      const userInfo = document.getElementById('userInfo');
+      if (userInfo && currentSession) {
+        userInfo.textContent = `${currentSession.staffName || currentSession.userId} (${currentSession.role})`;
+      }
+
+      // 店舗リストを取得
+      google.script.run
+        .withSuccessHandler(function(stores) {
+          const storeSelect = document.getElementById('store');
+          stores.forEach(store => {
+            const option = document.createElement('option');
+            option.value = store;
+            option.textContent = store;
+            storeSelect.appendChild(option);
+          });
+        })
+        .withFailureHandler(function(error) {
+          console.error('店舗リスト取得エラー:', error);
+          console.error('エラー詳細:', JSON.stringify(error));
+          const errorMsg = typeof error === 'string' ? error : (error.message || error.toString() || '不明なエラー');
+          alert('店舗リストの取得に失敗しました: ' + errorMsg);
+        })
+        .getStaffStores(sessionId);
+
+      // コースリストを取得
+      google.script.run
+        .withSuccessHandler(function(courses) {
+          const courseSelect = document.getElementById('course');
+          courses.forEach(course => {
+            const option = document.createElement('option');
+            option.value = course;
+            option.textContent = course;
+            courseSelect.appendChild(option);
+          });
+        })
+        .withFailureHandler(function(error) {
+          console.error('コースリスト取得エラー:', error);
+          console.error('エラー詳細:', JSON.stringify(error));
+        })
+        .getCourseList(sessionId);
+
+      // 「担当」欄にログインユーザー名を自動入力（編集可能）
+      const staffInput = document.getElementById('staff');
+      if (staffInput && currentSession && currentSession.staffName) {
+        staffInput.value = currentSession.staffName;
+      }
+
+      // 店舗選択時にスタッフリストを更新
+      document.getElementById('store').addEventListener('change', function() {
+        const selectedStore = this.value;
+        updateStaffList(selectedStore, sessionId);
+      });
+
+      // フォーム送信
+      document.getElementById('customerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        submitForm(sessionId);
+      });
+    }
+
+    // スタッフリストを更新
+    function updateStaffList(storeName, sessionId) {
+      const staffSelect = document.getElementById('staffPerson');
+      
+      // 既存の選択肢をクリア（最初のオプション以外）
+      staffSelect.innerHTML = '<option value="">選択してください</option>';
+      
+      if (!storeName) {
+        return;
+      }
+      
+      // ローディング表示
+      staffSelect.innerHTML = '<option value="">読み込み中...</option>';
+      staffSelect.disabled = true;
+      
+      google.script.run
+        .withSuccessHandler(function(staffList) {
+          staffSelect.innerHTML = '<option value="">選択してください</option>';
+          staffSelect.disabled = false;
+          
+          if (staffList && staffList.length > 0) {
+            staffList.forEach(staff => {
+              const option = document.createElement('option');
+              option.value = staff;
+              option.textContent = staff;
+              staffSelect.appendChild(option);
+            });
+          } else {
+            // スタッフがいない場合は手入力を許可するオプションを追加
+            const option = document.createElement('option');
+            option.value = '';
+            option.textContent = '（スタッフが登録されていません）';
+            staffSelect.appendChild(option);
+          }
+        })
+        .withFailureHandler(function(error) {
+          console.error('スタッフリスト取得エラー:', error);
+          staffSelect.innerHTML = '<option value="">選択してください</option>';
+          staffSelect.disabled = false;
+          
+          const errorMsg = typeof error === 'string' ? error : (error.message || error.toString() || '不明なエラー');
+          console.warn('スタッフリストの取得に失敗しました: ' + errorMsg);
+        })
+        .getStaffByStore(storeName, sessionId);
+    }
+
+    // フォーム送信
+    function submitForm(sessionId) {
+      const form = document.getElementById('customerForm');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // 日付をフォーマット
+      const dateValue = document.getElementById('date').value;
+      let formattedDate = dateValue;
+      if (dateValue) {
+        // YYYY-MM-DD形式をそのまま使用
+        formattedDate = dateValue;
+      }
+
+      // お問い合わせ日時をフォーマット
+      const inquiryDateTimeValue = document.getElementById('inquiryDateTime').value;
+      let formattedInquiryDateTime = inquiryDateTimeValue;
+      if (inquiryDateTimeValue) {
+        // YYYY-MM-DDTHH:mm形式をYYYY-MM-DD HH:mm形式に変換
+        formattedInquiryDateTime = inquiryDateTimeValue.replace('T', ' ');
+      }
+
+      const customerData = {
+        store: document.getElementById('store').value,
+        staffPerson: document.getElementById('staffPerson').value,
+        date: formattedDate,
+        name: document.getElementById('name').value,
+        gender: document.getElementById('gender').value,
+        age: document.getElementById('age').value,
+        birthday: document.getElementById('birthday').value,
+        address: document.getElementById('address').value,
+        family: document.getElementById('family').value,
+        purpose: document.getElementById('purpose').value,
+        source: document.getElementById('source').value,
+        postingDate: document.getElementById('postingDate').value,
+        inquiryDateTime: formattedInquiryDateTime,
+        area: document.getElementById('area').value,
+        envelope: document.getElementById('envelope').value,
+        decision: document.getElementById('decision').value,
+        staff: document.getElementById('staff').value,
+        course: document.getElementById('course').value,
+        paymentStatus: document.getElementById('paymentStatus').value,
+        supplement: document.getElementById('supplement').value,
+        sales: document.getElementById('sales').value,
+        unitPrice: document.getElementById('unitPrice').value,
+        status: document.getElementById('status').value
+      };
+
+      const submitBtn = document.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> 登録中...';
+
+      // Promiseチェーンでエラーハンドリングを改善
+      console.log('登録処理開始:', customerData);
+      
+      try {
+        const scriptRun = google.script.run
+          .withSuccessHandler(function(result) {
+            try {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = '<i class="bi bi-check-circle"></i> 登録';
+
+              console.log('登録結果:', result);
+              
+              if (result && result.success) {
+                alert('顧客データを登録しました');
+                
+                // 登録成功時に顧客一覧ページに遷移（sessionId付き）
+                const sid = currentSession ? currentSession.sessionId : '';
+                const listUrl = (baseUrl || '') + '?page=customer-list' + (sid ? '&sessionId=' + encodeURIComponent(sid) : '');
+                window.top.location.href = listUrl;
+              } else {
+                const errorMsg = result && result.message ? result.message : '登録に失敗しました';
+                alert('エラー: ' + errorMsg);
+              }
+            } catch (handlerError) {
+              console.error('成功ハンドラー内エラー:', handlerError);
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = '<i class="bi bi-check-circle"></i> 登録';
+            }
+          })
+          .withFailureHandler(function(error) {
+            try {
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = '<i class="bi bi-check-circle"></i> 登録';
+              
+              console.error('登録エラー:', error);
+              console.error('エラータイプ:', typeof error);
+              console.error('エラー名:', error && error.name ? error.name : 'N/A');
+              console.error('エラーメッセージ:', error && error.message ? error.message : 'N/A');
+              console.error('エラー全体:', JSON.stringify(error, Object.getOwnPropertyNames(error)));
+              
+              // エラーメッセージを構築
+              let errorMsg = '不明なエラー';
+              if (typeof error === 'string') {
+                errorMsg = error;
+              } else if (error && error.message) {
+                errorMsg = error.message;
+              } else if (error && error.toString) {
+                errorMsg = error.toString();
+              } else if (error && typeof error === 'object') {
+                try {
+                  errorMsg = JSON.stringify(error);
+                } catch (e) {
+                  errorMsg = 'エラーオブジェクトの解析に失敗しました';
+                }
+              }
+              
+              // postMessage関連のエラーは無視
+              if (!errorMsg.includes('postMessage') && !errorMsg.includes('script.google')) {
+                alert('登録に失敗しました: ' + errorMsg + '\n\n詳細はブラウザのコンソール（F12）を確認してください。');
+              }
+            } catch (handlerError) {
+              console.error('エラーハンドラー内エラー:', handlerError);
+              submitBtn.disabled = false;
+              submitBtn.innerHTML = '<i class="bi bi-check-circle"></i> 登録';
+            }
+          })
+          .registerCustomerToMaster(customerData, sessionId);
+        
+        // タイムアウト処理（30秒）
+        setTimeout(function() {
+          if (submitBtn.disabled) {
+            console.warn('登録処理がタイムアウトしました（30秒経過）');
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = '<i class="bi bi-check-circle"></i> 登録';
+            alert('登録処理がタイムアウトしました。ネットワーク接続を確認してください。');
+          }
+        }, 30000);
+        
+      } catch (callError) {
+        console.error('google.script.run呼び出しエラー:', callError);
+        console.error('エラースタック:', callError.stack);
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="bi bi-check-circle"></i> 登録';
+        
+        let errorMsg = '登録処理の開始に失敗しました';
+        if (callError && callError.message) {
+          errorMsg += ': ' + callError.message;
+        } else if (callError && callError.toString) {
+          errorMsg += ': ' + callError.toString();
+        }
+        
+        alert(errorMsg + '\n\nページを再読み込みするか、ネットワーク接続を確認してください。');
+      }
+    }
+  </script>
+</body>
+</html>

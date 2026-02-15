@@ -1,0 +1,1012 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>実績報告</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1d2036;
+      --primary-dark: #151728;
+      --accent-color: #34a853;
+      --accent-secondary: #ea4335;
+      --text-primary: #202124;
+      --text-secondary: #5f6368;
+      --bg-primary: #ffffff;
+      --bg-secondary: #f8f9fa;
+      --bg-tertiary: #f1f3f5;
+      --border-color: #dadce0;
+      --shadow-sm: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+      --shadow-md: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf1 100%);
+      font-family: 'Noto Sans JP', 'Inter', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', 'Meiryo', sans-serif;
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .header {
+      background: #1d2036;
+      color: white;
+      padding: 2.5rem 0;
+      margin-bottom: 2.5rem;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .header h1 {
+      font-weight: 600;
+      font-size: 1.75rem;
+      letter-spacing: -0.02em;
+      position: relative;
+      z-index: 1;
+    }
+
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 1.5rem;
+      background: var(--bg-primary);
+      transition: var(--transition);
+      overflow: hidden;
+    }
+
+    .card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      color: white;
+      font-weight: 600;
+      padding: 1.25rem 1.5rem;
+      border-bottom: none;
+    }
+
+    .form-label {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+      font-size: 0.875rem;
+    }
+
+    .required {
+      color: var(--accent-secondary);
+      font-weight: 600;
+    }
+
+    .customer-item {
+      padding: 0.875rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      margin-bottom: 0.75rem;
+      background-color: var(--bg-primary);
+      transition: var(--transition);
+    }
+
+    .customer-item:hover {
+      background-color: #f8f9ff;
+      border-color: var(--primary-color);
+      transform: translateX(4px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+      border: none;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: var(--transition);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--primary-dark) 0%, #0f4c8a 100%);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .form-control, .form-select {
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      transition: var(--transition);
+    }
+
+    .form-control:focus, .form-select:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.1);
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1 class="mb-0">
+            <i class="bi bi-clipboard-check"></i> 実績報告
+          </h1>
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+          <span id="userInfo" class="text-white me-2" style="font-size: 0.9rem;"></span>
+          <a href="#" id="dashboardLink" class="btn btn-light btn-sm" onclick="event.preventDefault(); goToDashboard();">
+            <i class="bi bi-house"></i> ダッシュボードへ
+          </a>
+          <a href="?page=logout" class="btn btn-outline-light btn-sm">
+            <i class="bi bi-box-arrow-right"></i> ログアウト
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- 過去の実績報告 -->
+    <div class="card mb-3">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-archive"></i> 過去の実績報告</h5>
+      </div>
+      <div class="card-body">
+        <div id="reportArchive">
+          <div class="text-center">
+            <div class="spinner-border spinner-border-sm text-primary" role="status"></div>
+            <p class="mt-2 mb-0">読み込み中...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header">
+        <h5 class="mb-0"><i class="bi bi-calendar-check"></i> 実績報告フォーム</h5>
+      </div>
+      <div class="card-body">
+        <form id="reportForm">
+          <!-- 報告者名表示 -->
+          <div class="row mb-3">
+            <div class="col-md-12">
+              <div class="alert alert-info mb-0">
+                <i class="bi bi-person"></i> <strong>報告者:</strong> <span id="reporterName">-</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 年月選択 -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="yearMonth" class="form-label">報告年月 <span class="required">*</span></label>
+              <select class="form-select" id="yearMonth" required>
+                <option value="">選択してください</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="storeName" class="form-label">店舗名 <span class="required">*</span></label>
+              <select class="form-select" id="storeName" required>
+                <option value="">選択してください</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- 実績報告項目 -->
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="sessionCount" class="form-label">セッション本数 <span class="required">*</span></label>
+              <input type="number" class="form-control" id="sessionCount" min="0" required>
+            </div>
+            <div class="col-md-6">
+              <label for="attendanceCount" class="form-label">出勤回数 <span class="required">*</span></label>
+              <input type="number" class="form-control" id="attendanceCount" min="0" required>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="endNextMonthCount" class="form-label">翌月終了予定者数</label>
+              <input type="number" class="form-control" id="endNextMonthCount" min="0" value="0">
+            </div>
+            <div class="col-md-6">
+              <label for="currentCustomerCount" class="form-label">現在の担当人数 <span class="required">*</span></label>
+              <input type="number" class="form-control" id="currentCustomerCount" min="0" required>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="desiredCustomerCount" class="form-label">追加希望担当人数</label>
+              <input type="number" class="form-control" id="desiredCustomerCount" min="0" value="0">
+            </div>
+          </div>
+
+          <!-- 売上顧客セクション -->
+          <div class="mb-3">
+            <label class="form-label">売上顧客</label>
+            <div class="card">
+              <div class="card-body">
+                <div class="mb-2">
+                  <button type="button" class="btn btn-sm btn-outline-secondary" onclick="runDebugSheetStructure()">
+                    <i class="bi bi-bug"></i> シート構造を診断
+                  </button>
+                </div>
+                <div id="debugResult" style="display:none; max-height:300px; overflow-y:auto; font-size:12px;" class="mb-2 p-2 bg-light border rounded"></div>
+                <div class="mb-3">
+                  <label for="customerSearch" class="form-label">顧客を検索・選択</label>
+                  <input type="text" class="form-control" id="customerSearch" placeholder="顧客名で検索">
+                </div>
+                <div id="customerList" style="max-height: 300px; overflow-y: auto;">
+                  <p class="text-muted text-center">店舗を選択すると顧客リストが表示されます</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 選択された顧客リスト -->
+          <div class="mb-3">
+            <label class="form-label">選択された売上顧客</label>
+            <div id="selectedCustomers" class="card">
+              <div class="card-body">
+                <p class="text-muted mb-0" id="noCustomersMessage">顧客が選択されていません</p>
+                <div id="selectedCustomersList"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- SNS・記事投稿 -->
+          <div class="mb-3">
+            <label class="form-label"><i class="bi bi-share"></i> SNS・記事投稿</label>
+            <div class="card">
+              <div class="card-body">
+                <div id="snsPostsList">
+                  <p class="text-muted mb-2" id="noSnsMessage">投稿が追加されていません</p>
+                </div>
+                <hr>
+                <h6 class="mb-3"><i class="bi bi-plus-circle"></i> 投稿を追加</h6>
+                <div class="row g-2 align-items-end">
+                  <div class="col-md-3">
+                    <label for="snsType" class="form-label">種別</label>
+                    <select class="form-select form-select-sm" id="snsType">
+                      <option value="Instagram">Instagram</option>
+                      <option value="ブログ">ブログ</option>
+                    </select>
+                  </div>
+                  <div class="col-md-7">
+                    <label for="snsUrl" class="form-label">URL</label>
+                    <input type="url" class="form-control form-control-sm" id="snsUrl" placeholder="https://...">
+                  </div>
+                  <div class="col-md-2">
+                    <button type="button" class="btn btn-sm btn-outline-primary w-100" onclick="addSnsPost()">
+                      <i class="bi bi-plus"></i> 追加
+                    </button>
+                  </div>
+                </div>
+                <div class="row g-2 mt-1">
+                  <div class="col-md-12">
+                    <label for="snsMemo" class="form-label">メモ（投稿内容の概要など）</label>
+                    <input type="text" class="form-control form-control-sm" id="snsMemo" placeholder="投稿内容のメモ">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 送信ボタン -->
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary btn-lg">
+              <i class="bi bi-check-circle"></i> 実績報告を送信
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // グローバル変数
+    let currentSession = null;
+    let allCustomers = [];
+    let selectedCustomers = [];
+    let reviewCounts = {};
+    let snsPosts = [];
+    let baseUrl = '<?= deployUrl ?>';
+
+    // ページ読み込み時に初期化
+    window.onload = function() {
+      checkSession();
+    };
+
+    // セッション確認
+    function checkSession() {
+      // URLパラメータからセッションIDを取得
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlSessionId = urlParams.get('sessionId');
+      
+      let sessionData = sessionStorage.getItem('userSession');
+      
+      // URLにセッションIDがあり、sessionStorageにセッションがない場合
+      if (urlSessionId && !sessionData) {
+        console.log('URLからセッションIDを取得:', urlSessionId);
+        google.script.run
+          .withSuccessHandler(function(result) {
+            if (result && result.success) {
+              google.script.run
+                .withSuccessHandler(function(session) {
+                  if (session) {
+                    sessionStorage.setItem('userSession', JSON.stringify(session));
+                    currentSession = session;
+                    initializeForm();
+                  } else {
+                    redirectToLogin();
+                  }
+                })
+                .withFailureHandler(function(error) {
+                  console.error('セッション取得エラー:', error);
+                  redirectToLogin();
+                })
+                .getSession(urlSessionId);
+            } else {
+              redirectToLogin();
+            }
+          })
+          .withFailureHandler(function(error) {
+            console.error('セッション確認エラー:', error);
+            redirectToLogin();
+          })
+          .setSession(urlSessionId);
+        return;
+      }
+      
+      if (!sessionData) {
+        redirectToLogin();
+        return;
+      }
+
+      try {
+        const session = JSON.parse(sessionData);
+        currentSession = session;
+        
+        // sessionキーでも保存（他ページとの互換性のため）
+        sessionStorage.setItem('session', sessionData);
+
+        // サーバー側でもセッションを設定
+        if (session.sessionId) {
+          google.script.run
+            .withSuccessHandler(function(result) {
+              if (result && !result.success) {
+                sessionStorage.removeItem('userSession');
+                currentSession = null;
+                redirectToLogin();
+              } else {
+                initializeForm();
+              }
+            })
+            .withFailureHandler(function(error) {
+              console.error('セッション設定エラー:', error);
+              initializeForm();
+            })
+            .setSession(session.sessionId);
+        } else {
+          initializeForm();
+        }
+      } catch (error) {
+        console.error('セッション確認エラー:', error);
+        sessionStorage.removeItem('userSession');
+        redirectToLogin();
+      }
+    }
+    
+    // ログイン画面へリダイレクト
+    function redirectToLogin() {
+      window.location.href = baseUrl + '?page=login';
+    }
+
+    // ダッシュボードへ遷移（sessionId付き）
+    function goToDashboard() {
+      const sid = currentSession ? currentSession.sessionId : '';
+      window.top.location.href = baseUrl + (sid ? '?sessionId=' + encodeURIComponent(sid) : '');
+    }
+
+    // フォーム初期化
+    function initializeForm() {
+      const sessionId = currentSession ? currentSession.sessionId : null;
+      
+      // ユーザー情報を表示
+      const userInfo = document.getElementById('userInfo');
+      if (userInfo && currentSession) {
+        userInfo.textContent = `${currentSession.staffName || currentSession.userId} (${currentSession.role})`;
+      }
+      
+      // 報告者名を表示
+      const reporterName = document.getElementById('reporterName');
+      if (reporterName && currentSession) {
+        reporterName.textContent = currentSession.staffName || currentSession.userId || '不明';
+      }
+
+      // 過去の実績報告アーカイブを読み込む
+      loadReportArchive();
+
+      // 年月の選択肢を生成（過去12ヶ月から未来3ヶ月まで）
+      const yearMonthSelect = document.getElementById('yearMonth');
+      const now = new Date();
+      for (let i = -12; i <= 3; i++) {
+        const date = new Date(now.getFullYear(), now.getMonth() + i, 1);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const yearMonth = `${year}年${month}月`;
+        const option = document.createElement('option');
+        option.value = yearMonth;
+        option.textContent = yearMonth;
+        if (i === 0) {
+          option.selected = true;
+        }
+        yearMonthSelect.appendChild(option);
+      }
+
+      // 店舗リストを取得（所属店舗・稼働店舗のみ）
+      google.script.run
+        .withSuccessHandler(function(stores) {
+          const storeSelect = document.getElementById('storeName');
+          stores.forEach(store => {
+            const option = document.createElement('option');
+            option.value = store;
+            option.textContent = store;
+            storeSelect.appendChild(option);
+          });
+          
+          // 店舗が1つしかない場合は自動選択
+          if (stores.length === 1) {
+            storeSelect.value = stores[0];
+            // 顧客リストを読み込む
+            const selectedYearMonth = yearMonthSelect.value;
+            if (selectedYearMonth) {
+              loadCustomers(stores[0], selectedYearMonth, sessionId);
+            }
+          }
+
+          // 店舗が選択されたら顧客リストを読み込む
+          storeSelect.addEventListener('change', function() {
+            const selectedYearMonth = yearMonthSelect.value;
+            if (selectedYearMonth) {
+              loadCustomers(this.value, selectedYearMonth, sessionId);
+            } else {
+              document.getElementById('customerList').innerHTML = '<p class="text-muted text-center">年月を選択してください</p>';
+            }
+          });
+
+          // 既存の報告がある場合は読み込む
+          const selectedYearMonth = yearMonthSelect.value;
+          if (selectedYearMonth) {
+            loadExistingReport(selectedYearMonth, sessionId);
+          }
+        })
+        .withFailureHandler(function(error) {
+          console.error('店舗リスト取得エラー:', error);
+        })
+        .getStaffStores(sessionId);
+
+      // 年月変更時に顧客リストを再読み込み
+      yearMonthSelect.addEventListener('change', function() {
+        const storeName = document.getElementById('storeName').value;
+        if (storeName && this.value) {
+          loadCustomers(storeName, this.value, sessionId);
+          loadExistingReport(this.value, sessionId);
+        }
+      });
+
+      // 顧客検索
+      document.getElementById('customerSearch').addEventListener('input', function(e) {
+        filterCustomers(e.target.value);
+      });
+
+      // フォーム送信
+      document.getElementById('reportForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        submitReport(sessionId);
+      });
+    }
+
+    // シート構造診断
+    function runDebugSheetStructure() {
+      const debugDiv = document.getElementById('debugResult');
+      debugDiv.style.display = 'block';
+      debugDiv.innerHTML = '<p>診断中...</p>';
+      const sessionId = currentSession ? currentSession.sessionId : null;
+      
+      google.script.run
+        .withSuccessHandler(function(result) {
+          let html = '<strong>ログインユーザー:</strong> staffName=[' + (result.staffName || '') + '], userId=[' + (result.userId || '') + ']<br>';
+          
+          if (result.customerRegistration) {
+            const cr = result.customerRegistration;
+            html += '<hr><strong>【顧客登録シート】</strong> (' + cr.totalRows + '行)<br>';
+            html += '<strong>ヘッダー:</strong> ' + cr.headers.join(' | ') + '<br>';
+            cr.sampleRows.forEach(function(row, i) {
+              html += '<strong>行' + (i+1) + ':</strong> ' + row.join(' | ') + '<br>';
+            });
+          }
+          
+          if (result.customerContinueHistory) {
+            const ch = result.customerContinueHistory;
+            html += '<hr><strong>【顧客継続履歴シート】</strong> (' + ch.totalRows + '行)<br>';
+            html += '<strong>ヘッダー:</strong> ' + ch.headers.join(' | ') + '<br>';
+            ch.sampleRows.forEach(function(row, i) {
+              html += '<strong>行' + (i+1) + ':</strong> ' + row.join(' | ') + '<br>';
+            });
+          }
+          
+          debugDiv.innerHTML = html;
+        })
+        .withFailureHandler(function(error) {
+          debugDiv.innerHTML = '<p class="text-danger">診断エラー: ' + error + '</p>';
+        })
+        .debugSheetStructure(sessionId);
+    }
+
+    // 顧客リストを読み込む
+    function loadCustomers(storeName, yearMonth, sessionId) {
+      if (!storeName) {
+        document.getElementById('customerList').innerHTML = '<p class="text-muted text-center">店舗を選択してください</p>';
+        return;
+      }
+
+      if (!yearMonth) {
+        document.getElementById('customerList').innerHTML = '<p class="text-muted text-center">年月を選択してください</p>';
+        return;
+      }
+
+      document.getElementById('customerList').innerHTML = '<p class="text-center"><span class="spinner-border spinner-border-sm"></span> 顧客を読み込んでいます...</p>';
+
+      // 顧客リストと口コミ件数を並行して取得
+      let customersLoaded = false;
+      let reviewsLoaded = false;
+      
+      function tryRenderCustomers() {
+        if (customersLoaded && reviewsLoaded) {
+          if (allCustomers.length === 0) {
+            document.getElementById('customerList').innerHTML = '<p class="text-muted text-center">該当月に更新のあった顧客が見つかりませんでした</p>';
+          } else {
+            filterCustomers('');
+          }
+        }
+      }
+
+      google.script.run
+        .withSuccessHandler(function(customers) {
+          allCustomers = customers;
+          customersLoaded = true;
+          tryRenderCustomers();
+        })
+        .withFailureHandler(function(error) {
+          console.error('顧客リスト取得エラー:', error);
+          document.getElementById('customerList').innerHTML = '<p class="text-danger text-center">顧客の読み込みに失敗しました</p>';
+        })
+        .getStaffCustomersByStore(storeName, yearMonth, sessionId);
+
+      // 口コミ件数を取得（年月フィルタなしで全口コミの合計を表示）
+      google.script.run
+        .withSuccessHandler(function(counts) {
+          reviewCounts = counts || {};
+          console.log('口コミ件数:', reviewCounts);
+          reviewsLoaded = true;
+          tryRenderCustomers();
+        })
+        .withFailureHandler(function(error) {
+          console.error('口コミ件数取得エラー:', error);
+          reviewCounts = {};
+          reviewsLoaded = true;
+          tryRenderCustomers();
+        })
+        .getReviewCountsByYearMonth('', sessionId);
+    }
+
+    // 顧客をフィルタリング
+    function filterCustomers(searchTerm) {
+      const customerList = document.getElementById('customerList');
+      const searchLower = searchTerm.toLowerCase();
+
+      const filtered = allCustomers.filter(customer => {
+        return customer.name.toLowerCase().includes(searchLower);
+      });
+
+      if (filtered.length === 0) {
+        customerList.innerHTML = '<p class="text-muted text-center">該当する顧客が見つかりません</p>';
+        return;
+      }
+
+      let html = '';
+      filtered.forEach(customer => {
+        const isSelected = selectedCustomers.some(sc => sc.name === customer.name);
+        const rc = reviewCounts[customer.name] || 0;
+        const reviewBadge = rc > 0 ? `<span class="badge bg-warning text-dark ms-1"><i class="bi bi-star-fill"></i> 口コミ ${rc}件</span>` : '';
+        html += `
+          <div class="customer-item ${isSelected ? 'bg-light' : ''}">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="${escapeHtml(customer.name)}" 
+                     id="customer-${escapeHtml(customer.name)}" 
+                     ${isSelected ? 'checked' : ''}
+                     onchange="toggleCustomer('${escapeHtml(customer.name)}', '${escapeHtml(customer.storeName)}', '${escapeHtml(customer.status || '')}', '${escapeHtml(customer.course || '')}', '${escapeHtml(customer.paymentStatus || '')}', '${escapeHtml(customer.sales || '')}', this.checked)">
+              <label class="form-check-label" for="customer-${escapeHtml(customer.name)}">
+                <strong>${escapeHtml(customer.name)}</strong>
+                ${customer.status ? `<span class="badge bg-primary ms-2">${escapeHtml(customer.status)}</span>` : ''}
+                ${customer.course ? `<span class="badge bg-info ms-1">${escapeHtml(customer.course)}</span>` : ''}
+                ${customer.paymentStatus ? `<span class="badge bg-success ms-1">${escapeHtml(customer.paymentStatus)}</span>` : ''}
+                ${customer.sales ? `<span class="text-muted ms-2">&yen;${escapeHtml(customer.sales)}</span>` : ''}
+                ${reviewBadge}
+              </label>
+            </div>
+          </div>
+        `;
+      });
+      customerList.innerHTML = html;
+    }
+
+    // 顧客の選択/解除
+    function toggleCustomer(name, storeName, status, course, paymentStatus, sales, isSelected) {
+      if (isSelected) {
+        // 顧客を追加（ステータスを種別として使用）
+        selectedCustomers.push({
+          name: name,
+          storeName: storeName,
+          type: status || '入会', // ステータスを種別として使用
+          course: course || '',
+          paymentStatus: paymentStatus || '',
+          sales: sales || ''
+        });
+      } else {
+        // 顧客を削除
+        selectedCustomers = selectedCustomers.filter(sc => sc.name !== name);
+      }
+      updateSelectedCustomersList();
+    }
+
+    // 選択された顧客リストを更新
+    function updateSelectedCustomersList() {
+      const container = document.getElementById('selectedCustomersList');
+      const noMessage = document.getElementById('noCustomersMessage');
+
+      if (selectedCustomers.length === 0) {
+        container.innerHTML = '';
+        noMessage.style.display = 'block';
+        return;
+      }
+
+      noMessage.style.display = 'none';
+      let html = '';
+      selectedCustomers.forEach((customer, index) => {
+        html += `
+          <div class="customer-item mb-2">
+            <div class="row align-items-center">
+              <div class="col-md-3">
+                <strong>${escapeHtml(customer.name)}</strong>
+                ${customer.course ? `<br><small class="text-muted">コース: ${escapeHtml(customer.course)}</small>` : ''}
+                ${customer.paymentStatus ? `<br><small class="text-muted">支払い: ${escapeHtml(customer.paymentStatus)}</small>` : ''}
+                ${customer.sales ? `<br><small class="text-info">売上: ¥${escapeHtml(customer.sales)}</small>` : ''}
+              </div>
+              <div class="col-md-3">
+                <select class="form-select form-select-sm" onchange="updateCustomerType(${index}, this.value)">
+                  <option value="入会" ${customer.type === '入会' ? 'selected' : ''}>入会</option>
+                  <option value="継続" ${customer.type === '継続' ? 'selected' : ''}>継続</option>
+                  <option value="退会" ${customer.type === '退会' ? 'selected' : ''}>退会</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <button class="btn btn-sm btn-outline-danger" onclick="removeCustomer(${index})">
+                  <i class="bi bi-x-circle"></i> 削除
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    // 顧客の種別を更新
+    function updateCustomerType(index, type) {
+      if (selectedCustomers[index]) {
+        selectedCustomers[index].type = type;
+      }
+    }
+
+    // 顧客を削除
+    function removeCustomer(index) {
+      selectedCustomers.splice(index, 1);
+      updateSelectedCustomersList();
+      // チェックボックスも更新
+      filterCustomers(document.getElementById('customerSearch').value);
+    }
+
+    // 既存の報告を読み込む
+    function loadExistingReport(yearMonth, sessionId) {
+      google.script.run
+        .withSuccessHandler(function(result) {
+          if (result.success && result.data) {
+            const data = result.data;
+            document.getElementById('sessionCount').value = data.sessionCount || 0;
+            document.getElementById('attendanceCount').value = data.attendanceCount || 0;
+            document.getElementById('endNextMonthCount').value = data.endNextMonthCount || 0;
+            document.getElementById('currentCustomerCount').value = data.currentCustomerCount || 0;
+            document.getElementById('desiredCustomerCount').value = data.desiredCustomerCount || 0;
+            document.getElementById('storeName').value = data.storeName || '';
+
+            // 顧客リストを読み込む
+            if (data.storeName && yearMonth) {
+              loadCustomers(data.storeName, yearMonth, sessionId);
+            }
+
+            // 選択された顧客を設定
+            selectedCustomers = data.salesCustomers || [];
+            updateSelectedCustomersList();
+          }
+        })
+        .withFailureHandler(function(error) {
+          console.error('既存報告取得エラー:', error);
+        })
+        .getPerformanceReport(yearMonth, sessionId);
+    }
+
+    // 過去の実績報告アーカイブを読み込む
+    function loadReportArchive() {
+      const archiveContainer = document.getElementById('reportArchive');
+      if (!archiveContainer) return;
+      
+      const sessionId = currentSession ? currentSession.sessionId : null;
+      
+      google.script.run
+        .withSuccessHandler(function(reports) {
+          if (!reports || reports.length === 0) {
+            archiveContainer.innerHTML = '<p class="text-muted mb-0">過去の実績報告はありません</p>';
+            return;
+          }
+          
+          let html = '<div class="table-responsive"><table class="table table-hover">';
+          html += '<thead><tr>';
+          html += '<th>報告年月</th>';
+          html += '<th>店舗名</th>';
+          html += '<th>報告日時</th>';
+          html += '<th>操作</th>';
+          html += '</tr></thead><tbody>';
+          
+          reports.forEach(function(report) {
+            // デバッグ: 元のデータを確認
+            console.log('Report data:', report);
+            console.log('yearMonth:', report.yearMonth, 'type:', typeof report.yearMonth);
+            console.log('reportDateTime:', report.reportDateTime, 'type:', typeof report.reportDateTime);
+            
+            // 日付フォーマット関数（報告年月用 → 「2026年1月」形式）
+            function formatYearMonth(dateStr) {
+              if (!dateStr) return '';
+              try {
+                var str = String(dateStr);
+                // 既に「2026年1月」形式ならそのまま
+                if (str.match(/^\d{4}年\d{1,2}月$/)) return str;
+                // Date型の文字列表現（例: "Thu Jan 01 2026 ..."）
+                var d = new Date(str);
+                if (!isNaN(d.getTime())) {
+                  return d.getFullYear() + '年' + (d.getMonth() + 1) + '月';
+                }
+                // "2026-01" or "2026/01" 形式
+                var m = str.match(/(\d{4})[-\/](\d{1,2})/);
+                if (m) return parseInt(m[1]) + '年' + parseInt(m[2]) + '月';
+                return str;
+              } catch (e) {
+                return String(dateStr);
+              }
+            }
+            
+            // 日付フォーマット関数（報告日時用 → 「2026/1/28 12:00」形式）
+            function formatDateTime(dateStr) {
+              if (!dateStr) return '';
+              try {
+                var str = String(dateStr);
+                // Date型の文字列表現（例: "Tue Jan 20 2026 09:14:13 ..."）
+                var d = new Date(str);
+                if (!isNaN(d.getTime())) {
+                  return d.getFullYear() + '/' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' +
+                    String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+                }
+                // "2026-01-28 12:00:00" 形式
+                if (str.includes('-')) {
+                  var parts = str.split(' ');
+                  var dp = parts[0].split('-').map(Number);
+                  var tp = (parts[1] || '00:00:00').substring(0, 5);
+                  return dp[0] + '/' + dp[1] + '/' + dp[2] + ' ' + tp;
+                }
+                // "2026/01/28 12:00:00" 形式
+                if (str.includes('/')) {
+                  var parts2 = str.split(' ');
+                  var dp2 = parts2[0].split('/').map(Number);
+                  var tp2 = (parts2[1] || '00:00:00').substring(0, 5);
+                  return dp2[0] + '/' + dp2[1] + '/' + dp2[2] + ' ' + tp2;
+                }
+                return str;
+              } catch (e) {
+                return String(dateStr);
+              }
+            }
+            
+            const formattedYearMonth = formatYearMonth(report.yearMonth || '');
+            const formattedDateTime = formatDateTime(report.reportDateTime || '');
+            
+            // IDを安全に取得（エスケープしない）
+            const reportId = String(report.id || '').replace(/'/g, "\\'");
+            
+            html += '<tr>';
+            html += `<td>${escapeHtml(formattedYearMonth)}</td>`;
+            html += `<td>${escapeHtml(report.storeName)}</td>`;
+            html += `<td>${escapeHtml(formattedDateTime)}</td>`;
+            html += '<td>';
+            // IDは文字列（UUID）なので、文字列として渡す（シングルクォートで囲む）
+            html += `<button type="button" class="btn btn-sm btn-outline-primary" onclick="openReportDetail('${reportId}')">`;
+            html += '<i class="bi bi-eye"></i> 詳細を見る';
+            html += '</button>';
+            html += '</td>';
+            html += '</tr>';
+          });
+          
+          html += '</tbody></table></div>';
+          archiveContainer.innerHTML = html;
+        })
+        .withFailureHandler(function(error) {
+          console.error('アーカイブ読み込みエラー:', error);
+          archiveContainer.innerHTML = '<p class="text-danger mb-0">アーカイブの読み込みに失敗しました</p>';
+        })
+        .getStaffPerformanceReports(sessionId);
+    }
+
+    // アーカイブ詳細ページへ遷移
+    function openReportDetail(reportId) {
+      console.log('openReportDetail called with reportId:', reportId);
+      
+      if (!reportId || reportId === null || reportId === undefined || reportId === '') {
+        alert('実績報告IDが不正です: ' + reportId);
+        return;
+      }
+
+      const sessionId = currentSession ? currentSession.sessionId : '';
+      if (!sessionId) {
+        alert('セッションが取得できません。再度ログインしてください。');
+        redirectToLogin();
+        return;
+      }
+
+      // sessionStorageにIDを保存（ページ遷移時に確実に取得できるように）
+      sessionStorage.setItem('pendingReportId', String(reportId));
+      
+      // sessionIdを含めて遷移（ログイン状態を維持）
+      const fullUrl = baseUrl + '?page=report-detail&id=' + encodeURIComponent(String(reportId)) + '&sessionId=' + encodeURIComponent(sessionId);
+      console.log('Navigating to:', fullUrl);
+      window.top.location.href = fullUrl;
+    }
+    
+    // ===== SNS・記事投稿 関連（URL登録のみ。ファイルアップロードは廃止） =====
+    function addSnsPost() {
+      const snsType = document.getElementById('snsType').value;
+      const snsUrl = document.getElementById('snsUrl').value.trim();
+      const snsMemo = document.getElementById('snsMemo').value.trim();
+
+      if (!snsType) { alert('種別を選択してください'); return; }
+
+      snsPosts.push({
+        type: snsType,
+        url: snsUrl,
+        memo: snsMemo
+      });
+      renderSnsPosts();
+      clearSnsForm();
+    }
+
+    function clearSnsForm() {
+      document.getElementById('snsUrl').value = '';
+      document.getElementById('snsMemo').value = '';
+    }
+
+    function removeSnsPost(index) {
+      snsPosts.splice(index, 1);
+      renderSnsPosts();
+    }
+
+    function renderSnsPosts() {
+      const container = document.getElementById('snsPostsList');
+      const noMsg = document.getElementById('noSnsMessage');
+
+      if (snsPosts.length === 0) {
+        container.innerHTML = '';
+        if (noMsg) noMsg.style.display = 'block';
+        return;
+      }
+
+      if (noMsg) noMsg.style.display = 'none';
+      let html = '';
+      snsPosts.forEach(function(post, idx) {
+        html += '<div class="d-flex align-items-center justify-content-between border rounded p-2 mb-1 bg-white">';
+        html += '<div>';
+        html += '<span class="badge bg-secondary me-1">' + escapeHtml(post.type) + '</span>';
+        if (post.url) html += '<a href="' + escapeHtml(post.url) + '" target="_blank" class="small me-2">' + escapeHtml(post.url.substring(0, 40)) + (post.url.length > 40 ? '...' : '') + '</a>';
+        if (post.memo) html += '<span class="small text-muted">' + escapeHtml(post.memo) + '</span>';
+        html += '</div>';
+        html += '<button type="button" class="btn btn-sm btn-outline-danger" onclick="removeSnsPost(' + idx + ')"><i class="bi bi-trash"></i></button>';
+        html += '</div>';
+      });
+      container.innerHTML = html;
+    }
+
+    // 報告を送信
+    function submitReport(sessionId) {
+      const form = document.getElementById('reportForm');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const reportData = {
+        yearMonth: document.getElementById('yearMonth').value,
+        storeName: document.getElementById('storeName').value,
+        sessionCount: parseInt(document.getElementById('sessionCount').value) || 0,
+        attendanceCount: parseInt(document.getElementById('attendanceCount').value) || 0,
+        endNextMonthCount: parseInt(document.getElementById('endNextMonthCount').value) || 0,
+        currentCustomerCount: parseInt(document.getElementById('currentCustomerCount').value) || 0,
+        desiredCustomerCount: parseInt(document.getElementById('desiredCustomerCount').value) || 0,
+        salesCustomers: selectedCustomers,
+        snsPosts: snsPosts
+      };
+
+      const submitBtn = document.querySelector('button[type="submit"]');
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> 送信中...';
+
+      google.script.run
+        .withSuccessHandler(function(result) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="bi bi-check-circle"></i> 実績報告を送信';
+
+          if (result.success) {
+            alert('実績報告を保存しました');
+            // 同じ実績報告ページにリロード（sessionId付き）
+            const sid = currentSession ? currentSession.sessionId : '';
+            window.top.location.href = baseUrl + '?page=report' + (sid ? '&sessionId=' + encodeURIComponent(sid) : '');
+          } else {
+            alert('エラー: ' + result.message);
+          }
+        })
+        .withFailureHandler(function(error) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="bi bi-check-circle"></i> 実績報告を送信';
+          alert('実績報告の保存に失敗しました: ' + error);
+        })
+        .savePerformanceReport(reportData, sessionId);
+    }
+
+    // HTMLエスケープ関数
+    function escapeHtml(text) {
+      if (text === null || text === undefined) return '';
+      const div = document.createElement('div');
+      div.textContent = String(text);
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

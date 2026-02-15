@@ -102,12 +102,28 @@ function doGet(e) {
   try {
     // パラメータを安全に取得
     const params = e && e.parameter ? e.parameter : {};
-    const page = params.page || 'index';
+    let page = params.page || '';
     const store = params.store || '';
     const sessionId = params.sessionId || null;
     
-    // WebアプリのベースURLを取得
+    // WebアプリのベースURLを取得（常に最新のデプロイURL）
     const baseUrl = ScriptApp.getService().getUrl();
+    
+    // ページ未指定時: 未ログインなら必ずログイン画面へリダイレクト（自社ドメインから開いても常にログインから入る）
+    if (page === '' || page === 'index') {
+      let session = null;
+      try {
+        if (sessionId) session = getSession(sessionId);
+        if (!session) session = getSession();
+      } catch (err) { session = null; }
+      if (!session) {
+        const loginUrl = baseUrl + '?page=login';
+        return HtmlService.createHtmlOutput(
+          '<!DOCTYPE html><html><head><meta charset="UTF-8"><meta http-equiv="refresh" content="0;url=' + loginUrl + '"><title>ログインへ</title></head><body><p>ログイン画面へ移動しています...</p><script>location.replace(' + JSON.stringify(loginUrl) + ');</script></body></html>'
+        ).setTitle('ログイン');
+      }
+      page = 'index';
+    }
     
     // ログインページの場合は直接表示（セッション確認不要）
     if (page === 'login') {
