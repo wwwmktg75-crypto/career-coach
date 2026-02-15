@@ -1,5 +1,5 @@
 /**
- * 経営管理ダッシュボードシステム★AI-chan作業中 2026/02/15 (日) 更新★
+ * 経営管理ダッシュボードシステム★AI-chan作業中 2025/01/18 (日) 更新★
  * 顧客一覧の店舗フィルタを部分一致に（駒沢⇔駒沢大学など）
  * Google Apps Script バックエンド
  * パフォーマンス最適化: キャッシュサービス、バッチ処理、範囲指定最適化を実装
@@ -2591,6 +2591,44 @@ function getSnsPostSheet() {
 }
 
 /**
+ * 指定年月の第3日曜日を返す（その日の0時0分0秒）
+ * @param {number} year - 年
+ * @param {number} month - 月（1-12）
+ * @return {Date} 第3日曜日のDate
+ */
+function getThirdSunday(year, month) {
+  // 月の1日
+  const first = new Date(year, month - 1, 1);
+  // 1日の曜日（0=日曜）
+  const dayOfWeek = first.getDay();
+  // 1日から最初の日曜までの日数（1日が日曜なら0、月曜なら1...土曜なら6）
+  const daysToFirstSunday = (7 - dayOfWeek) % 7;
+  // 第1日曜 = 1 + daysToFirstSunday（1日が日曜の場合は1日）
+  const firstSunday = dayOfWeek === 0 ? 1 : 1 + daysToFirstSunday;
+  const thirdSunday = firstSunday + 14;
+  return new Date(year, month - 1, thirdSunday, 0, 0, 0, 0);
+}
+
+/**
+ * 実績報告の集計期間を返す（前月の第3日曜の翌日 〜 当月の第3日曜の終日）
+ * @param {number} targetYear - 報告年月の年
+ * @param {number} targetMonth - 報告年月の月（1-12）
+ * @return {{ start: Date, end: Date }} 集計期間
+ */
+function getReportPeriodStartEnd(targetYear, targetMonth) {
+  const prevYear = targetMonth === 1 ? targetYear - 1 : targetYear;
+  const prevMonth = targetMonth === 1 ? 12 : targetMonth - 1;
+  const thirdSunPrev = getThirdSunday(prevYear, prevMonth);
+  const thirdSunCurr = getThirdSunday(targetYear, targetMonth);
+  const start = new Date(thirdSunPrev);
+  start.setDate(start.getDate() + 1);
+  start.setHours(0, 0, 0, 0);
+  const end = new Date(thirdSunCurr);
+  end.setHours(23, 59, 59, 999);
+  return { start: start, end: end };
+}
+
+/**
  * 日付が該当月かどうかをチェック
  * @param {*} dateValue - 日付値（Dateオブジェクト、文字列、シリアル値など）
  * @param {number} targetYear - 対象年
@@ -2635,8 +2673,9 @@ function isDateInTargetMonth(dateValue, targetYear, targetMonth) {
 }
 
 /**
- * 店舗名に基づいて顧客データを取得（該当月に更新のあった顧客のみ）
- * 「顧客マスタ」シートから入会ステータスの顧客、「顧客継続」シートから継続ステータスの顧客を取得
+ * 店舗名に基づいて顧客データを取得（集計期間内の顧客）
+ * 集計期間＝前月の第3日曜の翌日〜当月の第3日曜の終日
+ * 「顧客マスタ」シートから入会、「顧客継続」シートから継続を取得
  * @param {string} storeName - 店舗名
  * @param {string} yearMonth - 年月（例: "2025年1月"）
  * @param {string} sessionId - セッションID（オプション）
@@ -2670,6 +2709,42 @@ function getCustomersByStore(storeName, yearMonth, sessionId = null) {
       }
     }
     
+    // 集計期間: 前月の第3日曜の翌日 〜 当月の第3日曜の終日
+    let periodStart = null;
+    let periodEnd = null;
+    if (targetYear && targetMonth) {
+      const period = getReportPeriodStartEnd(targetYear, targetMonth);
+      periodStart = period.start;
+      periodEnd = period.end;
+    }
+    
+    function isDateInReportPeriod(dateValue) {
+      if (!periodStart || !periodEnd || !dateValue) return false;
+      let date = null;
+      if (dateValue instanceof Date && !isNaN(dateValue)) {
+        date = dateValue;
+      } else if (typeof dateValue === 'string') {
+        const str = String(dateValue).trim();
+        if (str.includes('-')) {
+          const parts = str.split(/[\s-]/);
+          if (parts.length >= 3) {
+            date = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+          }
+        } else if (str.includes('/')) {
+          const parts = str.split(/[\s\/]/);
+          if (parts.length >= 3) {
+            date = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+          }
+        }
+      } else if (typeof dateValue === 'number') {
+        date = new Date((dateValue - 25569) * 86400 * 1000);
+      }
+      if (date && !isNaN(date.getTime())) {
+        return date >= periodStart && date <= periodEnd;
+      }
+      return false;
+    }
+    
     const customers = [];
     
     // 1. 「顧客マスタ」シートから入会ステータスの顧客を取得
@@ -2679,7 +2754,7 @@ function getCustomersByStore(storeName, yearMonth, sessionId = null) {
       if (masterData && masterData.length > 1) {
         // 列のインデックス（0ベース）
         const statusIdx = 2; // C列：ステータス
-        const dateIdx = 3;   // D列：日付（該当月チェック用）
+        const dateIdx = 3;   // D列：日付（集計期間チェック用）
         const courseIdx = 18; // S列：コース
         const paymentIdx = 19; // T列：支払い状況
         const salesIdx = 21;   // V列：売上
@@ -2725,11 +2800,9 @@ function getCustomersByStore(storeName, yearMonth, sessionId = null) {
             return;
           }
           
-          // D列が該当月かチェック
-          if (targetYear && targetMonth) {
-            if (!isDateInTargetMonth(dateValue, targetYear, targetMonth)) {
-              return;
-            }
+          // D列が集計期間内かチェック（前月第3日曜翌日〜当月第3日曜）
+          if (periodStart && periodEnd && !isDateInReportPeriod(dateValue)) {
+            return;
           }
           
           const name = String(row[nameIdx] || '').trim();
@@ -2758,7 +2831,7 @@ function getCustomersByStore(storeName, yearMonth, sessionId = null) {
       if (continueData && continueData.length > 1) {
         // 列のインデックス（0ベース）
         const statusIdx = 2; // C列：ステータス
-        const dateIdx = 3;   // D列：日付（該当月チェック用）
+        const dateIdx = 3;   // D列：日付（集計期間チェック用）
         const courseIdx = 18; // S列：コース
         const paymentIdx = 19; // T列：支払い状況
         const salesIdx = 21;   // V列：売上
@@ -2804,11 +2877,9 @@ function getCustomersByStore(storeName, yearMonth, sessionId = null) {
             return;
           }
           
-          // D列が該当月かチェック
-          if (targetYear && targetMonth) {
-            if (!isDateInTargetMonth(dateValue, targetYear, targetMonth)) {
-              return;
-            }
+          // D列が集計期間内かチェック（前月第3日曜翌日〜当月第3日曜）
+          if (periodStart && periodEnd && !isDateInReportPeriod(dateValue)) {
+            return;
           }
           
           const name = String(row[nameIdx] || '').trim();
@@ -2956,15 +3027,20 @@ function getStaffCustomersByStore(storeName, yearMonth, sessionId = null) {
       }
     }
     
-    // 当月の開始日と終了日を取得
-    const startOfMonth = targetYear && targetMonth ? new Date(targetYear, targetMonth - 1, 1) : null;
-    const endOfMonth = targetYear && targetMonth ? new Date(targetYear, targetMonth, 0, 23, 59, 59, 999) : null;
+    // 集計期間: 前月の第3日曜の翌日 〜 当月の第3日曜の終日
+    let periodStart = null;
+    let periodEnd = null;
+    if (targetYear && targetMonth) {
+      const period = getReportPeriodStartEnd(targetYear, targetMonth);
+      periodStart = period.start;
+      periodEnd = period.end;
+    }
     
-    console.log('日付範囲:', startOfMonth, '〜', endOfMonth);
+    console.log('集計期間（前月第3日曜翌日〜当月第3日曜）:', periodStart, '〜', periodEnd);
     
-    // 日付が該当月かチェックするヘルパー関数
-    function isDateInMonth(dateValue) {
-      if (!startOfMonth || !endOfMonth || !dateValue) return false;
+    // 日付が集計期間内かチェックするヘルパー関数
+    function isDateInReportPeriod(dateValue) {
+      if (!periodStart || !periodEnd || !dateValue) return false;
       
       let date = null;
       if (dateValue instanceof Date && !isNaN(dateValue)) {
@@ -2987,8 +3063,8 @@ function getStaffCustomersByStore(storeName, yearMonth, sessionId = null) {
         date = new Date((dateValue - 25569) * 86400 * 1000);
       }
       
-      if (date && !isNaN(date)) {
-        return date >= startOfMonth && date <= endOfMonth;
+      if (date && !isNaN(date.getTime())) {
+        return date >= periodStart && date <= periodEnd;
       }
       return false;
     }
@@ -3087,11 +3163,11 @@ function getStaffCustomersByStore(storeName, yearMonth, sessionId = null) {
           return;
         }
         
-        // 該当月に登録された顧客のみ
-        if (!isDateInMonth(dateValue)) {
+        // 集計期間内に登録された顧客のみ（前月第3日曜翌日〜当月第3日曜）
+        if (!isDateInReportPeriod(dateValue)) {
           skipReasons.dateMismatch++;
           if (matchCount === 0 && idx < 10) {
-            console.log(`顧客登録: 日付不一致 - 名前=[${name}], 日付=[${dateValue}], 範囲=${startOfMonth}〜${endOfMonth}`);
+            console.log(`顧客登録: 日付不一致 - 名前=[${name}], 日付=[${dateValue}], 範囲=${periodStart}〜${periodEnd}`);
           }
           return;
         }
@@ -3176,11 +3252,11 @@ function getStaffCustomersByStore(storeName, yearMonth, sessionId = null) {
           return;
         }
         
-        // 該当月に継続登録された顧客のみ
-        if (!isDateInMonth(dateValue)) {
+        // 集計期間内に継続登録された顧客のみ（前月第3日曜翌日〜当月第3日曜）
+        if (!isDateInReportPeriod(dateValue)) {
           skipReasons.dateMismatch++;
           if (matchCount === 0 && idx < 10) {
-            console.log(`継続履歴: 日付不一致 - 名前=[${name}], 日付=[${dateValue}], 範囲=${startOfMonth}〜${endOfMonth}`);
+            console.log(`継続履歴: 日付不一致 - 名前=[${name}], 日付=[${dateValue}], 範囲=${periodStart}〜${periodEnd}`);
           }
           return;
         }
