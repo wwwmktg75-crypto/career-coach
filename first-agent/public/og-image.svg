@@ -1,0 +1,18 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" rx="32" fill="#F8FAFC"/>
+  <circle cx="1041" cy="136" r="148" fill="#DBEAFE"/>
+  <circle cx="172" cy="521" r="176" fill="#DCFCE7"/>
+  <rect x="98" y="100" width="1004" height="430" rx="32" fill="white"/>
+  <rect x="128" y="132" width="184" height="54" rx="27" fill="#EFF6FF"/>
+  <text x="150" y="166" fill="#2563EB" font-family="Arial, sans-serif" font-size="24" font-weight="700">First Agent</text>
+  <text x="128" y="256" fill="#0F172A" font-family="Arial, sans-serif" font-size="62" font-weight="700">AIとデザインで、</text>
+  <text x="128" y="330" fill="#0F172A" font-family="Arial, sans-serif" font-size="62" font-weight="700">ビジネスの未来を加速する。</text>
+  <text x="128" y="396" fill="#475569" font-family="Arial, sans-serif" font-size="26">AI・デザイン・SaaS開発を提供するFirst Agentの公式サイト</text>
+  <rect x="728" y="170" width="280" height="208" rx="28" fill="#F8FAFC" stroke="#E2E8F0"/>
+  <rect x="760" y="204" width="216" height="32" rx="16" fill="#DBEAFE"/>
+  <rect x="760" y="256" width="96" height="80" rx="20" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <rect x="880" y="256" width="96" height="80" rx="20" fill="#FFFFFF" stroke="#E2E8F0"/>
+  <path d="M760 364C804 328 842 352 882 312C917 277 946 288 976 264" stroke="#2563EB" stroke-width="12" stroke-linecap="round"/>
+  <rect x="728" y="408" width="138" height="54" rx="27" fill="#EDE9FE"/>
+  <rect x="886" y="408" width="160" height="54" rx="27" fill="#CCFBF1"/>
+</svg>

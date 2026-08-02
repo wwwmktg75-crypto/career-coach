@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8fafc;
+  --surface: rgba(255, 255, 255, 0.8);
+  --surface-strong: #ffffff;
+  --foreground: #0f172a;
+  --muted: #475569;
+  --line: #e2e8f0;
+  --blue: #2563eb;
+  --navy: #0f172a;
+  --purple: #7c3aed;
+  --mint: #14b8a6;
+  --sky: #dbeafe;
+  --shadow-lg: 0 24px 64px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 16px 40px rgba(15, 23, 42, 0.06);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at top left, rgba(124, 58, 237, 0.09), transparent 32%),
+    radial-gradient(circle at right center, rgba(37, 99, 235, 0.1), transparent 28%),
+    linear-gradient(180deg, #ffffff 0%, #f8fafc 52%, #ffffff 100%);
+  color: var(--foreground);
+  font-family: var(--font-jp), "Helvetica Neue", Arial, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+input,
+select,
+textarea,
+button {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(37, 99, 235, 0.16);
+}
+
+.page-shell {
+  position: relative;
+  overflow: clip;
+}
+
+.page-shell::before,
+.page-shell::after {
+  content: "";
+  position: absolute;
+  inset: auto;
+  border-radius: 9999px;
+  filter: blur(70px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.page-shell::before {
+  top: 6rem;
+  right: -8rem;
+  width: 20rem;
+  height: 20rem;
+  background: rgba(37, 99, 235, 0.16);
+}
+
+.page-shell::after {
+  top: 28rem;
+  left: -6rem;
+  width: 18rem;
+  height: 18rem;
+  background: rgba(20, 184, 166, 0.12);
+}
+
+.container {
+  margin: 0 auto;
+  width: min(100%, 1200px);
+  padding-inline: 1.5rem;
+}
+
+.glass {
+  background: var(--surface);
+  backdrop-filter: blur(18px);
+}
+
+.section-space {
+  padding-block: 5rem;
+}
+
+@media (min-width: 768px) {
+  .section-space {
+    padding-block: 6rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-space {
+    padding-block: 7rem;
+  }
+}
