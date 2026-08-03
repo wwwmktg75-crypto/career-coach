@@ -1,14 +1,11 @@
 'use server';
 
-type ContactState = {
+import { Resend } from 'resend';
+
+export type ContactState = {
   success: boolean;
   message: string;
   errors?: Record<string, string>;
-};
-
-const defaultState: ContactState = {
-  success: false,
-  message: '',
 };
 
 const inquiryOptions = new Set([
@@ -18,6 +15,15 @@ const inquiryOptions = new Set([
   '協業・パートナーについて',
   'その他',
 ]);
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
 
 export async function submitContact(
   _prevState: ContactState,
@@ -59,35 +65,69 @@ export async function submitContact(
     submittedAt: new Date().toISOString(),
   };
 
-  const formspreeEndpoint = process.env.FORMSPREE_ENDPOINT;
+  const resendApiKey = process.env.RESEND_API_KEY;
+  const resendFrom = process.env.RESEND_FROM || 'First Agent <onboarding@resend.dev>';
+  const notificationTo = process.env.CONTACT_NOTIFICATION_TO || 'wwwmktg75@gmail.com';
 
-  if (!formspreeEndpoint) {
+  if (!resendApiKey) {
     console.info('Contact form demo submission', payload);
     return {
       success: true,
       message:
-        'お問い合わせを受け付けました。現在は開発モードのため外部送信は無効ですが、導線と入力内容は確認できます。',
+        'お問い合わせを受け付けました。現在は Resend 未設定のため通知メール送信は無効ですが、導線と入力内容は確認できます。',
     };
   }
 
   try {
-    const response = await fetch(formspreeEndpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-      body: JSON.stringify(payload),
-      cache: 'no-store',
+    const resend = new Resend(resendApiKey);
+
+    const safeCompany = company ? escapeHtml(company) : '未入力';
+    const safeMessage = escapeHtml(message).replaceAll('\n', '<br />');
+
+    const { error } = await resend.emails.send({
+      from: resendFrom,
+      to: [notificationTo],
+      replyTo: email,
+      subject: `【First Agent】お問い合わせ: ${type}`,
+      html: `
+        <div style="font-family: Arial, 'Hiragino Sans', 'Yu Gothic', sans-serif; color: #0f172a; line-height: 1.8;">
+          <h2 style="margin: 0 0 16px;">First Agent お問い合わせ通知</h2>
+          <p style="margin: 0 0 24px;">サイトの問い合わせフォームから新しい送信がありました。</p>
+          <table style="width: 100%; border-collapse: collapse;">
+            <tbody>
+              <tr><td style="padding: 10px 0; border-top: 1px solid #e2e8f0; width: 160px;"><strong>お名前</strong></td><td style="padding: 10px 0; border-top: 1px solid #e2e8f0;">${escapeHtml(name)}</td></tr>
+              <tr><td style="padding: 10px 0; border-top: 1px solid #e2e8f0;"><strong>会社名・屋号</strong></td><td style="padding: 10px 0; border-top: 1px solid #e2e8f0;">${safeCompany}</td></tr>
+              <tr><td style="padding: 10px 0; border-top: 1px solid #e2e8f0;"><strong>メールアドレス</strong></td><td style="padding: 10px 0; border-top: 1px solid #e2e8f0;">${escapeHtml(email)}</td></tr>
+              <tr><td style="padding: 10px 0; border-top: 1px solid #e2e8f0;"><strong>お問い合わせ種別</strong></td><td style="padding: 10px 0; border-top: 1px solid #e2e8f0;">${escapeHtml(type)}</td></tr>
+              <tr><td style="padding: 10px 0; border-top: 1px solid #e2e8f0;"><strong>送信日時</strong></td><td style="padding: 10px 0; border-top: 1px solid #e2e8f0;">${escapeHtml(payload.submittedAt)}</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top: 24px; padding: 20px; border-radius: 16px; background: #f8fafc; border: 1px solid #e2e8f0;">
+            <p style="margin: 0 0 8px;"><strong>お問い合わせ内容</strong></p>
+            <p style="margin: 0;">${safeMessage}</p>
+          </div>
+        </div>
+      `,
+      text: `First Agent お問い合わせ通知
+
+お名前: ${name}
+会社名・屋号: ${company || '未入力'}
+メールアドレス: ${email}
+お問い合わせ種別: ${type}
+送信日時: ${payload.submittedAt}
+
+お問い合わせ内容:
+${message}
+`,
     });
 
-    if (!response.ok) {
-      throw new Error(`Form submission failed: ${response.status}`);
+    if (error) {
+      throw new Error(error.message);
     }
 
     return {
       success: true,
-      message: 'お問い合わせありがとうございます。内容を確認のうえご連絡いたします。',
+      message: 'お問い合わせありがとうございます。内容を送信しました。確認のうえご連絡いたします。',
     };
   } catch (error) {
     console.error(error);
@@ -98,5 +138,3 @@ export async function submitContact(
     };
   }
 }
-
-export { defaultState };

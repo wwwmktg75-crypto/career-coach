@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
-import { defaultState, submitContact } from '@/app/actions';
+import { submitContact, type ContactState } from '@/app/actions';
 
 const inquiryTypes = [
   'デザインテンプレートについて',
@@ -11,8 +11,13 @@ const inquiryTypes = [
   'その他',
 ];
 
+const initialState: ContactState = {
+  success: false,
+  message: '',
+};
+
 export function ContactForm() {
-  const [state, action, pending] = useActionState(submitContact, defaultState);
+  const [state, action, pending] = useActionState(submitContact, initialState);
 
   return (
     <div className="rounded-[2rem] border border-slate-200/80 bg-white/90 p-8 shadow-[var(--shadow-md)] backdrop-blur md:p-10">
