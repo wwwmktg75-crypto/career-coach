@@ -8,10 +8,10 @@ export function ProductsSection() {
       <div className="container">
         <SectionTitle
           eyebrow="Products"
-          title="プロダクト・ポートフォリオ"
-          description="提供中および開発予定のプロダクト・テンプレートの一部をご紹介します。"
+          title="プロダクト"
+          description="提供中およびご相談可能なデジタルプロダクトの一部をご紹介します。"
         />
-        <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-5">
+        <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.name} product={product} />
           ))}
