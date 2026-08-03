@@ -10,7 +10,7 @@ export function Footer() {
             </p>
             <a
               href="#about"
-              className="mt-6 inline-flex items-center rounded-2xl bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5"
+              className="mt-6 inline-flex items-center rounded-2xl bg-slate-950 px-5 py-3 text-sm font-semibold !text-white transition hover:-translate-y-0.5 hover:!text-white visited:!text-white"
             >
               私たちについて
             </a>
@@ -18,7 +18,7 @@ export function Footer() {
           <div>
             <h2 className="text-lg font-semibold text-slate-950">Contact</h2>
             <div className="mt-4 grid gap-3 text-sm text-slate-600">
-              <a href="mailto:contact@firstagent.dev">contact@firstagent.dev</a>
+              <a href="mailto:wwwmktg75@gmail.com">wwwmktg75@gmail.com</a>
               <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
                 @first_agent_official
               </a>

@@ -22,7 +22,7 @@ export function AboutSection() {
               align="left"
               eyebrow="About"
               title="About First Agent"
-              description="Stripe審査や取引先の確認でも事業内容が伝わるよう、提供範囲と運営情報を明示しています。"
+              description=""
             />
             <div className="mt-8 space-y-5 text-sm leading-8 text-slate-600 md:text-base">
               <p>

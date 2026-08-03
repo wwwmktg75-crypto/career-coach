@@ -19,8 +19,8 @@ export function ContactSection() {
               <p>
                 メールでのご相談:
                 <br />
-                <a href="mailto:contact@firstagent.dev" className="font-semibold text-white">
-                  contact@firstagent.dev
+                <a href="mailto:wwwmktg75@gmail.com" className="font-semibold text-white">
+                  wwwmktg75@gmail.com
                 </a>
               </p>
               <p>営業時間: 平日10:00〜18:00</p>
