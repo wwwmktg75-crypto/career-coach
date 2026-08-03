@@ -25,13 +25,17 @@ function escapeHtml(value: string) {
     .replaceAll("'", '&#39;');
 }
 
+function normalizeEmailAddress(value: string) {
+  return value.normalize('NFKC').trim();
+}
+
 export async function submitContact(
   _prevState: ContactState,
   formData: FormData,
 ): Promise<ContactState> {
   const name = String(formData.get('name') || '').trim();
   const company = String(formData.get('company') || '').trim();
-  const email = String(formData.get('email') || '').trim();
+  const email = normalizeEmailAddress(String(formData.get('email') || ''));
   const type = String(formData.get('type') || '').trim();
   const message = String(formData.get('message') || '').trim();
   const consent = formData.get('consent');
@@ -67,7 +71,9 @@ export async function submitContact(
 
   const resendApiKey = process.env.RESEND_API_KEY;
   const resendFrom = process.env.RESEND_FROM || 'First Agent <onboarding@resend.dev>';
-  const notificationTo = process.env.CONTACT_NOTIFICATION_TO || 'wwwmktg75@gmail.com';
+  const notificationTo = normalizeEmailAddress(
+    process.env.CONTACT_NOTIFICATION_TO || 'wwwmktg75@gmail.com',
+  );
 
   if (!resendApiKey) {
     console.info('Contact form demo submission', payload);
