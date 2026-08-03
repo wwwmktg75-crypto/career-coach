@@ -8,8 +8,8 @@ export function ProcessSection() {
       <div className="container">
         <SectionTitle
           eyebrow="Workflow"
-          title="開発・提供のプロセス"
-          description="スムーズな進行と丁寧なコミュニケーションで、ビジネスを支援します。"
+          title="購入・ダウンロードの流れ"
+          description="商品を選んでから受け取りまで、迷わず進められるシンプルな流れでご案内します。"
         />
         <div className="mt-12 grid gap-4 xl:grid-cols-5">
           {processSteps.map((step, index) => (

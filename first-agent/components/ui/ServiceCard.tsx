@@ -22,9 +22,6 @@ export function ServiceCard({ service }: ServiceCardProps) {
           </li>
         ))}
       </ul>
-      <a href="#contact" className={`mt-8 inline-flex text-sm font-semibold ${service.linkColor}`}>
-        詳しく見る →
-      </a>
     </article>
   );
 }

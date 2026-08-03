@@ -12,7 +12,7 @@ export const products: Product[] = [
     name: 'WEBサイトテンプレート',
     category: 'WEB',
     price: '15,000円〜',
-    href: '#contact',
+    href: '/products/web-template',
     thumbnailSrc: '/products/web-template.png',
     thumbnailAlt: 'WEBサイトテンプレートのサムネイル',
   },

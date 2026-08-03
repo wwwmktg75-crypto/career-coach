@@ -19,9 +19,6 @@ export function Footer() {
             <h2 className="text-lg font-semibold text-slate-950">Contact</h2>
             <div className="mt-4 grid gap-3 text-sm text-slate-600">
               <a href="mailto:wwwmktg75@gmail.com">wwwmktg75@gmail.com</a>
-              <a href="https://www.instagram.com/" target="_blank" rel="noreferrer">
-                @first_agent_official
-              </a>
               <a
                 href="#contact"
                 className="inline-flex w-fit items-center rounded-2xl border border-slate-200 px-5 py-3 font-semibold text-slate-900 transition hover:-translate-y-0.5 hover:border-slate-300"

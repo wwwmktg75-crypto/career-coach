@@ -7,33 +7,27 @@ export type ProcessStepItem = {
 
 export const processSteps: ProcessStepItem[] = [
   {
-    title: 'ヒアリング・要件定義',
-    description: '課題や目的を確認し、必要な機能や提供内容を整理します。',
-    icon: '◔',
+    title: '商品を選ぶ',
+    description: 'プロダクト一覧や詳細ページから、目的に合う商品を選びます。',
+    icon: '◌',
     tone: 'from-violet-100 to-white text-violet-600',
   },
   {
-    title: '設計・プランニング',
-    description: 'デザイン、機能、スケジュール、費用を含む実施内容をご提案します。',
-    icon: '✎',
+    title: '購入連絡をする',
+    description: 'お問い合わせフォームまたはメールから、ご購入希望の商品をご連絡ください。',
+    icon: '✉',
     tone: 'from-blue-100 to-white text-blue-600',
   },
   {
-    title: '開発・制作',
-    description: '合意した内容をもとに、デザイン制作やシステム開発を行います。',
-    icon: '</>',
+    title: '決済を行う',
+    description: 'ご案内する方法で決済いただき、内容確認後にご提供準備を進めます。',
+    icon: '¥',
     tone: 'from-cyan-100 to-white text-cyan-600',
   },
   {
-    title: 'テスト・品質確認',
-    description: '動作確認や表示確認を行い、必要に応じて調整します。',
-    icon: '✓',
+    title: 'ダウンロードする',
+    description: '決済確認後、ダウンロード方法または受け取り手順をご案内します。',
+    icon: '↓',
     tone: 'from-emerald-100 to-white text-emerald-600',
-  },
-  {
-    title: '納品・サポート',
-    description: '納品後も、必要に応じて運用や改善をサポートします。',
-    icon: '☏',
-    tone: 'from-lime-100 to-white text-lime-600',
   },
 ];
