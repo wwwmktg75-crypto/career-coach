@@ -23,6 +23,17 @@ const purchaseNotes = [
   ['お問い合わせ', 'フォームまたは wwwmktg75@gmail.com から受付'],
 ];
 
+const productInfo = [
+  ['AIアプリの名称と用途', 'First Agent WEBサイトテンプレート。AI・SaaS・デジタルサービス事業の紹介サイトを短期間で公開するためのデジタル商品です。'],
+  ['購入すると受け取れるファイル', 'HTML / CSS / JavaScript または Next.js ベースのテンプレート一式、画像差し替え用素材案内、利用ガイド。提供内容は商品仕様に応じてご案内します。'],
+  ['対応環境', '最新版の Google Chrome、Safari、Microsoft Edge など主要モダンブラウザ。編集時は一般的なPC環境を推奨します。'],
+  ['納品方法', '決済確認後、ダウンロードURLまたはオンラインストレージ経由で納品します。'],
+  ['納品時期', '通常は決済確認後 1〜3営業日以内にご案内します。'],
+  ['価格が日本円であること', '表示価格はすべて日本円（税込または別途案内）です。'],
+  ['返金・キャンセル条件', 'デジタル商品のため、納品後の返金・返品は原則お受けしていません。納品前のキャンセルは対応可否を個別確認します。'],
+  ['サポート内容', '受け取り方法の案内、初期確認、軽微な不明点への回答をメールでサポートします。追加カスタマイズは別途ご相談となります。'],
+];
+
 export default function WebTemplateProductPage() {
   return (
     <div className="page-shell">
@@ -90,6 +101,24 @@ export default function WebTemplateProductPage() {
               </dl>
             </section>
           </div>
+
+          <section className="mt-12 rounded-[2rem] border border-slate-200/80 bg-white/90 p-8 shadow-[var(--shadow-md)] backdrop-blur md:p-10">
+            <h2 className="text-2xl font-semibold text-slate-950">商品情報</h2>
+            <p className="mt-4 text-sm leading-7 text-slate-600 md:text-base">
+              ご購入前に確認いただきたい提供条件と納品情報をまとめています。
+            </p>
+            <dl className="mt-8 grid gap-4">
+              {productInfo.map(([label, value]) => (
+                <div
+                  key={label}
+                  className="grid gap-2 rounded-[1.5rem] border border-slate-200 bg-slate-50/80 p-5 md:grid-cols-[220px_1fr] md:items-start"
+                >
+                  <dt className="text-sm font-semibold text-slate-950">{label}</dt>
+                  <dd className="text-sm leading-7 text-slate-600 md:text-base">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
         </div>
       </main>
       <Footer />
