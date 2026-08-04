@@ -2,6 +2,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { SecondaryButton } from '@/components/ui/SecondaryButton';
+import { StripeCheckoutButton } from '@/components/ui/StripeCheckoutButton';
 
 const includedItems = [
   '経理SaaSの基本設計またはテンプレート構成',
@@ -29,7 +30,7 @@ const productInfo = [
   ['対応環境', '主要モダンブラウザ、一般的なPC環境、要件に応じたクラウド利用環境。'],
   ['納品方法', '決済確認後、ダウンロードURLまたは共有ストレージ経由で納品します。'],
   ['納品時期', '通常は決済確認後 5〜10営業日以内を目安にご案内します。'],
-  ['価格が日本円であること', '表示価格はすべて日本円です。機能要件に応じて変動します。'],
+  ['価格について', '表示価格はすべて日本円です。機能要件に応じて変動します。'],
   ['返金・キャンセル条件', '設計・構成提供を含むデジタル商品のため、納品後の返金は原則不可です。'],
   ['サポート内容', '受け取り後の基本確認、初期導入に関する案内、軽微な質疑対応をメールで行います。'],
 ];
@@ -57,8 +58,9 @@ export default function AccountingSaasProductPage() {
                 経理管理を整理しやすくするためのSaaS構成商品です。業務の見える化や整理に役立つ基本設計をもとに、必要に応じて個別調整にもつなげられます。
               </p>
               <p className="mt-6 text-3xl font-semibold text-slate-950">150,000円〜</p>
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
                 <PrimaryButton href="/#contact">購入について相談する</PrimaryButton>
+                <StripeCheckoutButton productKey="accounting-saas" />
                 <SecondaryButton href="/#products">一覧に戻る</SecondaryButton>
               </div>
             </div>

@@ -21,7 +21,7 @@ export const products: Product[] = [
     category: 'AIソリューション',
     price: '30,000円〜',
     href: '/products/ai-agent',
-    thumbnailSrc: '/products/ai-agent.png',
+    thumbnailSrc: '/products/dify-chatbot.png',
     thumbnailAlt: 'AIエージェントのサムネイル',
   },
   {
@@ -29,7 +29,7 @@ export const products: Product[] = [
     category: 'チャットボット',
     price: '50,000円〜',
     href: '/products/dify-chatbot',
-    thumbnailSrc: '/products/dify-chatbot.png',
+    thumbnailSrc: '/products/ai-agent.png',
     thumbnailAlt: 'Difyチャットボットのサムネイル',
   },
   {

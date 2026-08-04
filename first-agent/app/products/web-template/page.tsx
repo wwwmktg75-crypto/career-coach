@@ -2,6 +2,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { SecondaryButton } from '@/components/ui/SecondaryButton';
+import { StripeCheckoutButton } from '@/components/ui/StripeCheckoutButton';
 
 const includedItems = [
   'トップページと主要セクションの完成デザイン',
@@ -29,7 +30,7 @@ const productInfo = [
   ['対応環境', '最新版の Google Chrome、Safari、Microsoft Edge など主要モダンブラウザ。編集時は一般的なPC環境を推奨します。'],
   ['納品方法', '決済確認後、ダウンロードURLまたはオンラインストレージ経由で納品します。'],
   ['納品時期', '通常は決済確認後 1〜3営業日以内にご案内します。'],
-  ['価格が日本円であること', '表示価格はすべて日本円（税込または別途案内）です。'],
+  ['価格について', '表示価格はすべて日本円（税込または別途案内）です。'],
   ['返金・キャンセル条件', 'デジタル商品のため、納品後の返金・返品は原則お受けしていません。納品前のキャンセルは対応可否を個別確認します。'],
   ['サポート内容', '受け取り方法の案内、初期確認、軽微な不明点への回答をメールでサポートします。追加カスタマイズは別途ご相談となります。'],
 ];
@@ -57,8 +58,9 @@ export default function WebTemplateProductPage() {
                 事業紹介やサービス販売に使いやすい、清潔感のあるWEBサイトテンプレートです。短期間で立ち上げたい方向けに、情報整理しやすい構成と見やすい導線を備えています。
               </p>
               <p className="mt-6 text-3xl font-semibold text-slate-950">15,000円〜</p>
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
                 <PrimaryButton href="/#contact">購入について相談する</PrimaryButton>
+                <StripeCheckoutButton productKey="web-template" />
                 <SecondaryButton href="/#products">一覧に戻る</SecondaryButton>
               </div>
             </div>

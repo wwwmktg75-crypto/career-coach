@@ -2,6 +2,7 @@ import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { PrimaryButton } from '@/components/ui/PrimaryButton';
 import { SecondaryButton } from '@/components/ui/SecondaryButton';
+import { StripeCheckoutButton } from '@/components/ui/StripeCheckoutButton';
 
 const includedItems = [
   'Difyチャットボットの基本構成',
@@ -29,7 +30,7 @@ const productInfo = [
   ['対応環境', '主要モダンブラウザ、Dify 利用環境、一般的なPC操作環境。'],
   ['納品方法', '決済確認後、共有リンクまたはダウンロード形式で納品します。'],
   ['納品時期', '通常は決済確認後 3〜5営業日以内です。'],
-  ['価格が日本円であること', '表示価格はすべて日本円です。要件に応じて変動します。'],
+  ['価格について', '表示価格はすべて日本円です。要件に応じて変動します。'],
   ['返金・キャンセル条件', 'デジタル商品および構成提供のため、納品後の返金は原則不可です。'],
   ['サポート内容', '初期導入に関する案内、基本的な設定質問への回答、軽微な調整相談を含みます。'],
 ];
@@ -43,7 +44,7 @@ export default function DifyChatbotProductPage() {
           <div className="grid gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white/90 shadow-[var(--shadow-lg)]">
               <img
-                src="/products/dify-chatbot.png"
+                src="/products/ai-agent.png"
                 alt="Difyチャットボットのプレビュー"
                 className="h-full w-full object-cover"
               />
@@ -57,8 +58,9 @@ export default function DifyChatbotProductPage() {
                 Dify を活用して、問い合わせや案内対応をスムーズに始めるためのチャットボット商品です。最小構成から導入しやすく、用途に応じた調整も可能です。
               </p>
               <p className="mt-6 text-3xl font-semibold text-slate-950">50,000円〜</p>
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:flex-wrap">
                 <PrimaryButton href="/#contact">購入について相談する</PrimaryButton>
+                <StripeCheckoutButton productKey="dify-chatbot" />
                 <SecondaryButton href="/#products">一覧に戻る</SecondaryButton>
               </div>
             </div>
