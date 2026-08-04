@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI SUMMER SCHOOL 2026 出席カレンダー</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="hero">
+        <h1 id="appTitle">AI SUMMER SCHOOL 2026</h1>
+        <p>月間カレンダー、出欠登録、今日の管理画面をひとつにまとめたMVPです。</p>
+      </header>
+
+      <nav class="tabs">
+        <button type="button" class="tab active" data-tab="calendar">受講カレンダー</button>
+        <button type="button" class="tab" data-tab="mine">自分の回答一覧</button>
+        <button type="button" class="tab" data-tab="today">本日の講座</button>
+      </nav>
+
+      <div id="loading" class="panel loading">データを読み込んでいます...</div>
+
+      <section id="calendarTab" class="tab-pane hidden">
+        <div class="layout">
+          <div class="panel">
+            <div class="panel-inner">
+              <div class="section-title">
+                <h2 id="monthTitle">2026年8月</h2>
+                <div class="month-nav">
+                  <button type="button" class="secondary" id="prevMonth">前月</button>
+                  <button type="button" class="secondary" id="nextMonth">次月</button>
+                </div>
+              </div>
+              <div id="calendarGrid" class="calendar-grid"></div>
+            </div>
+          </div>
+
+          <aside class="panel">
+            <div class="panel-inner">
+              <div id="detailEmpty">
+                <div class="section-title">
+                  <h3>講座詳細</h3>
+                </div>
+                <p class="empty">カレンダーの講座を押すと、詳細と出欠登録フォームを表示します。</p>
+              </div>
+              <div id="detailView" class="hidden">
+                <div class="section-title">
+                  <h3 id="detailTitle"></h3>
+                  <div class="badge-row" id="detailBadges"></div>
+                </div>
+                <div class="course-meta" id="detailMeta"></div>
+                <div class="stats" id="detailStats"></div>
+                <div id="detailLists"></div>
+                <hr class="divider" />
+                <h3>出欠を登録する</h3>
+                <div class="field">
+                  <label for="participantSelect">お名前</label>
+                  <select id="participantSelect" aria-label="出欠登録する参加者"></select>
+                  <div id="selectedParticipantName" class="selected-name hidden"></div>
+                </div>
+                <div class="field">
+                  <label>参加予定</label>
+                  <div class="radio-grid" id="statusRadios"></div>
+                </div>
+                <button type="button" class="submit-button" id="submitAttendance">回答を登録する</button>
+                <div id="submitMessage" class="message hidden"></div>
+                <p class="hint">回答はあとから何度でも変更できます。</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="mineTab" class="tab-pane hidden">
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="section-title">
+              <h2>自分の回答一覧</h2>
+            </div>
+            <div class="field">
+              <label for="mineParticipantSelect">お名前</label>
+              <select id="mineParticipantSelect" aria-label="回答一覧を表示する参加者"></select>
+            </div>
+            <div id="myResponses" class="response-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="todayTab" class="tab-pane hidden">
+        <div class="layout">
+          <div class="panel">
+            <div class="panel-inner">
+              <div class="section-title">
+                <h2>本日の講座</h2>
+                <button type="button" class="action secondary" id="copyToday">参加者一覧をコピー</button>
+              </div>
+              <div id="todayCard"></div>
+            </div>
+          </div>
+          <aside class="panel">
+            <div class="panel-inner">
+              <div class="section-title">
+                <h3>初期セットアップ</h3>
+              </div>
+              <p class="hint">空のスプレッドシートでも、そのまま必要シートを作成できます。試しに画面を確認したい場合はサンプル投入も使えます。</p>
+              <div class="setup-actions">
+                <button type="button" class="action secondary" id="setupSheets">シートを準備</button>
+                <button type="button" class="action" id="seedSample">サンプル投入</button>
+              </div>
+              <div id="setupMessage" class="message hidden"></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
+
+    <script src="./app.js" defer></script>
+  </body>
+  </html>

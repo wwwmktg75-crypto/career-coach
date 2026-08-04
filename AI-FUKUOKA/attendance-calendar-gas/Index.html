@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI SUMMER SCHOOL 2026 出席カレンダー</title>
+    <style>
+      :root {
+        --bg: #f5f8fc;
+        --panel: #ffffff;
+        --line: #d9e2ef;
+        --text: #183153;
+        --sub: #5b6f8e;
+        --navy: #0d2f66;
+        --blue: #2d68c4;
+        --green: #1f9d63;
+        --orange: #d97a1d;
+        --red: #cc4f4f;
+        --shadow: 0 16px 40px rgba(13, 47, 102, 0.08);
+        --radius: 20px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Hiragino Sans", "Yu Gothic", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top right, rgba(45, 104, 196, 0.12), transparent 28%),
+          linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+      }
+
+      button,
+      select,
+      input {
+        font: inherit;
+      }
+
+      .app {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 24px 16px 72px;
+      }
+
+      .hero {
+        background: linear-gradient(135deg, #0d2f66 0%, #214f96 100%);
+        color: #fff;
+        border-radius: 28px;
+        padding: 28px 24px;
+        box-shadow: var(--shadow);
+      }
+
+      .hero h1 {
+        margin: 0 0 8px;
+        font-size: clamp(1.8rem, 4vw, 2.8rem);
+      }
+
+      .hero p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.84);
+      }
+
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 20px 0;
+      }
+
+      .tab {
+        border: 0;
+        border-radius: 999px;
+        background: #e9f0fb;
+        color: var(--navy);
+        padding: 10px 16px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .tab.active {
+        background: var(--navy);
+        color: #fff;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.95fr);
+        gap: 18px;
+        align-items: start;
+      }
+
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+      }
+
+      .panel-inner {
+        padding: 20px;
+      }
+
+      .section-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .section-title h2,
+      .section-title h3 {
+        margin: 0;
+        font-size: 1.15rem;
+      }
+
+      .month-nav {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .month-nav button,
+      .action,
+      .submit-button {
+        border: 0;
+        border-radius: 14px;
+        padding: 10px 14px;
+        background: var(--navy);
+        color: #fff;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .month-nav button.secondary,
+      .action.secondary {
+        background: #eef4fc;
+        color: var(--navy);
+      }
+
+      .calendar-grid {
+        display: grid;
+        grid-template-columns: repeat(7, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .weekday,
+      .day-cell {
+        min-height: 128px;
+      }
+
+      .weekday {
+        font-size: 0.88rem;
+        font-weight: 700;
+        color: var(--sub);
+        text-align: center;
+        min-height: auto;
+      }
+
+      .day-cell {
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #fbfdff;
+        padding: 10px;
+      }
+
+      .day-cell.muted {
+        opacity: 0.42;
+      }
+
+      .day-cell.today {
+        border-color: #7aa5ea;
+        box-shadow: inset 0 0 0 1px rgba(45, 104, 196, 0.2);
+      }
+
+      .day-number {
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+
+      .course-chip {
+        width: 100%;
+        margin-bottom: 8px;
+        padding: 10px;
+        border: 0;
+        border-radius: 14px;
+        text-align: left;
+        background: linear-gradient(180deg, #edf4ff 0%, #e1ecfb 100%);
+        color: var(--text);
+        cursor: pointer;
+      }
+
+      .course-chip:last-child {
+        margin-bottom: 0;
+      }
+
+      .course-chip strong,
+      .course-chip span {
+        display: block;
+      }
+
+      .course-chip strong {
+        font-size: 0.92rem;
+        line-height: 1.35;
+      }
+
+      .course-chip .meta {
+        margin-top: 6px;
+        font-size: 0.82rem;
+        color: var(--sub);
+      }
+
+      .badge-row,
+      .stats,
+      .name-list,
+      .setup-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 10px;
+        border-radius: 999px;
+        font-size: 0.84rem;
+        font-weight: 700;
+        background: #edf3fb;
+        color: var(--navy);
+      }
+
+      .badge.green {
+        background: #e6f7ef;
+        color: var(--green);
+      }
+
+      .badge.red {
+        background: #fdecec;
+        color: var(--red);
+      }
+
+      .badge.orange {
+        background: #fff3e4;
+        color: var(--orange);
+      }
+
+      .stat-card {
+        flex: 1 1 110px;
+        border-radius: 18px;
+        padding: 14px;
+        background: #f8fbff;
+        border: 1px solid var(--line);
+      }
+
+      .stat-card strong {
+        display: block;
+        font-size: 1.35rem;
+        margin-top: 8px;
+      }
+
+      .field {
+        margin-bottom: 14px;
+      }
+
+      .field label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 700;
+      }
+
+      .selected-name {
+        margin-top: 8px;
+        padding: 10px 12px;
+        border-radius: 14px;
+        background: #f6f9fe;
+        border: 1px solid var(--line);
+        color: var(--navy);
+        font-weight: 700;
+      }
+
+      select,
+      input[type="text"],
+      input[type="password"] {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 12px 14px;
+        background: #fff;
+      }
+
+      .radio-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .radio-card {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 12px;
+        background: #fff;
+      }
+
+      .radio-card input {
+        margin-right: 8px;
+      }
+
+      .submit-button {
+        width: 100%;
+        padding: 14px 18px;
+        margin-top: 8px;
+      }
+
+      .hint,
+      .empty,
+      .message {
+        color: var(--sub);
+        font-size: 0.94rem;
+      }
+
+      .message {
+        margin-top: 12px;
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: #ecf6ff;
+        color: var(--navy);
+      }
+
+      .course-meta {
+        display: grid;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+
+      .course-meta div {
+        padding: 12px 14px;
+        border-radius: 16px;
+        background: #f8fbff;
+        border: 1px solid var(--line);
+      }
+
+      .list-block {
+        margin-top: 16px;
+      }
+
+      .list-block h4 {
+        margin: 0 0 10px;
+        font-size: 1rem;
+      }
+
+      .name-list span {
+        padding: 7px 10px;
+        border-radius: 999px;
+        background: #f0f5fb;
+      }
+
+      .response-list {
+        display: grid;
+        gap: 10px;
+      }
+
+      .response-item {
+        padding: 14px;
+        border-radius: 16px;
+        border: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .response-item strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .loading {
+        padding: 40px 20px;
+        text-align: center;
+        color: var(--sub);
+      }
+
+      @media (max-width: 920px) {
+        .layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .calendar-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .weekday {
+          display: none;
+        }
+
+        .radio-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .hero {
+          padding: 24px 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <header class="hero">
+        <h1 id="appTitle">AI SUMMER SCHOOL 2026</h1>
+        <p>月間カレンダー、出欠登録、今日の管理画面をひとつにまとめたMVPです。</p>
+      </header>
+
+      <nav class="tabs">
+        <button type="button" class="tab active" data-tab="calendar">受講カレンダー</button>
+        <button type="button" class="tab" data-tab="mine">自分の回答一覧</button>
+        <button type="button" class="tab" data-tab="today">本日の講座</button>
+      </nav>
+
+      <div id="loading" class="panel loading">データを読み込んでいます...</div>
+
+      <section id="calendarTab" class="tab-pane hidden">
+        <div class="layout">
+          <div class="panel">
+            <div class="panel-inner">
+              <div class="section-title">
+                <h2 id="monthTitle">2026年8月</h2>
+                <div class="month-nav">
+                  <button type="button" class="secondary" id="prevMonth">前月</button>
+                  <button type="button" class="secondary" id="nextMonth">次月</button>
+                </div>
+              </div>
+              <div id="calendarGrid" class="calendar-grid"></div>
+            </div>
+          </div>
+
+          <aside class="panel">
+            <div class="panel-inner">
+              <div id="detailEmpty">
+                <div class="section-title">
+                  <h3>講座詳細</h3>
+                </div>
+                <p class="empty">カレンダーの講座を押すと、詳細と出欠登録フォームを表示します。</p>
+              </div>
+              <div id="detailView" class="hidden">
+                <div class="section-title">
+                  <h3 id="detailTitle"></h3>
+                  <div class="badge-row" id="detailBadges"></div>
+                </div>
+                <div class="course-meta" id="detailMeta"></div>
+                <div class="stats" id="detailStats"></div>
+                <div id="detailLists"></div>
+                <hr style="border:none;border-top:1px solid var(--line);margin:20px 0;" />
+                <h3>出欠を登録する</h3>
+                <div class="field">
+                  <label for="participantSelect">お名前</label>
+                  <select id="participantSelect" aria-label="出欠登録する参加者"></select>
+                  <div id="selectedParticipantName" class="selected-name hidden"></div>
+                </div>
+                <div class="field">
+                  <label>参加予定</label>
+                  <div class="radio-grid" id="statusRadios"></div>
+                </div>
+                <button type="button" class="submit-button" id="submitAttendance">回答を登録する</button>
+                <div id="submitMessage" class="message hidden"></div>
+                <p class="hint">回答はあとから何度でも変更できます。</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="mineTab" class="tab-pane hidden">
+        <div class="panel">
+          <div class="panel-inner">
+            <div class="section-title">
+              <h2>自分の回答一覧</h2>
+            </div>
+            <div class="field">
+              <label for="mineParticipantSelect">お名前</label>
+              <select id="mineParticipantSelect" aria-label="回答一覧を表示する参加者"></select>
+            </div>
+            <div id="myResponses" class="response-list"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="todayTab" class="tab-pane hidden">
+        <div class="layout">
+          <div class="panel">
+            <div class="panel-inner">
+              <div class="section-title">
+                <h2>本日の講座</h2>
+                <button type="button" class="action secondary" id="copyToday">参加者一覧をコピー</button>
+              </div>
+              <div id="todayCard"></div>
+            </div>
+          </div>
+          <aside class="panel">
+            <div class="panel-inner">
+              <div class="section-title">
+                <h3>初期セットアップ</h3>
+              </div>
+              <p class="hint">空のスプレッドシートでも、そのまま必要シートを作成できます。試しに画面を確認したい場合はサンプル投入も使えます。</p>
+              <div class="setup-actions">
+                <button type="button" class="action secondary" id="setupSheets">シートを準備</button>
+                <button type="button" class="action" id="seedSample">サンプル投入</button>
+              </div>
+              <div id="setupMessage" class="message hidden"></div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
+
+    <script>
+      const state = {
+        appData: null,
+        selectedCourseId: '',
+        selectedMonth: '',
+        todayCopyText: ''
+      };
+
+      const weekdayLabels = ['日', '月', '火', '水', '木', '金', '土'];
+      const panes = {
+        calendar: document.getElementById('calendarTab'),
+        mine: document.getElementById('mineTab'),
+        today: document.getElementById('todayTab')
+      };
+
+      document.querySelectorAll('.tab').forEach((button) => {
+        button.addEventListener('click', () => switchTab(button.dataset.tab));
+      });
+
+      document.getElementById('prevMonth').addEventListener('click', () => moveMonth(-1));
+      document.getElementById('nextMonth').addEventListener('click', () => moveMonth(1));
+      document.getElementById('submitAttendance').addEventListener('click', submitAttendance);
+      document.getElementById('participantSelect').addEventListener('change', updateSelectedParticipantName);
+      document.getElementById('mineParticipantSelect').addEventListener('change', loadMyResponses);
+      document.getElementById('copyToday').addEventListener('click', copyTodaySummary);
+      document.getElementById('setupSheets').addEventListener('click', runSetupSheets);
+      document.getElementById('seedSample').addEventListener('click', runSeedSample);
+
+      google.script.run
+        .withSuccessHandler(boot)
+        .withFailureHandler(showError)
+        .getAppData();
+
+      function boot(data) {
+        state.appData = data;
+        state.selectedMonth = data.currentMonth;
+        document.getElementById('appTitle').textContent = data.title;
+        fillParticipantSelects(data.participants);
+        renderCalendar();
+        renderTodayPanel();
+        document.getElementById('loading').classList.add('hidden');
+        switchTab('calendar');
+
+        const initialCourse = data.todayCourse || data.upcomingCourse || data.courses[0];
+        if (initialCourse) {
+          selectCourse(initialCourse.id);
+        }
+        document.getElementById('participantSelect').value = '';
+        if (data.participants[0]) {
+          document.getElementById('mineParticipantSelect').value = data.participants[0].id;
+          loadMyResponses();
+        }
+      }
+
+      function showError(error) {
+        const loading = document.getElementById('loading');
+        loading.classList.remove('hidden');
+        loading.textContent = (error && error.message) || 'データの読み込みに失敗しました。';
+      }
+
+      function switchTab(tabName) {
+        document.querySelectorAll('.tab').forEach((button) => {
+          button.classList.toggle('active', button.dataset.tab === tabName);
+        });
+
+        Object.keys(panes).forEach((key) => {
+          panes[key].classList.toggle('hidden', key !== tabName);
+        });
+
+        if (tabName === 'mine') {
+          loadMyResponses();
+        }
+
+        if (tabName === 'today') {
+          renderTodayPanel();
+        }
+      }
+
+      function fillParticipantSelects(participants) {
+        const selects = [
+          document.getElementById('participantSelect'),
+          document.getElementById('mineParticipantSelect')
+        ];
+
+        selects.forEach((select) => {
+          if (!participants.length) {
+            select.innerHTML = '<option value="">参加者が未登録です</option>';
+            select.disabled = true;
+            return;
+          }
+
+          select.disabled = false;
+          const placeholder = select.id === 'participantSelect'
+            ? '<option value="">お名前を選択してください</option>'
+            : '';
+          select.innerHTML = placeholder + participants.map((participant) => (
+            '<option value="' + participant.id + '">' + escapeHtml(participant.name) + '</option>'
+          )).join('');
+        });
+
+        updateSelectedParticipantName();
+      }
+
+      function renderCalendar() {
+        const grid = document.getElementById('calendarGrid');
+        const monthTitle = document.getElementById('monthTitle');
+        const [year, month] = state.selectedMonth.split('-').map(Number);
+        const firstDate = new Date(year, month - 1, 1);
+        const lastDate = new Date(year, month, 0);
+        const startIndex = firstDate.getDay();
+        const totalCells = Math.ceil((startIndex + lastDate.getDate()) / 7) * 7;
+        const todayIso = state.appData.todayIso;
+
+        monthTitle.textContent = year + '年' + month + '月';
+        grid.innerHTML = weekdayLabels.map((label) => (
+          '<div class="weekday">' + label + '</div>'
+        )).join('');
+
+        const coursesByDate = state.appData.courses.reduce((acc, course) => {
+          acc[course.date] = acc[course.date] || [];
+          acc[course.date].push(course);
+          return acc;
+        }, {});
+
+        for (let index = 0; index < totalCells; index += 1) {
+          const dayNumber = index - startIndex + 1;
+          const date = new Date(year, month - 1, dayNumber);
+          const inMonth = dayNumber > 0 && dayNumber <= lastDate.getDate();
+          const isoDate = formatIsoDate(date);
+          const dayCourses = inMonth ? (coursesByDate[isoDate] || []) : [];
+
+          const cell = document.createElement('div');
+          cell.className = 'day-cell' + (inMonth ? '' : ' muted') + (isoDate === todayIso ? ' today' : '');
+          cell.innerHTML = '<div class="day-number">' + (inMonth ? date.getDate() : '') + '</div>';
+
+          dayCourses.forEach((course) => {
+            const button = document.createElement('button');
+            button.className = 'course-chip';
+            button.innerHTML = '<strong>' + escapeHtml(course.title) + '</strong>';
+            button.addEventListener('click', () => selectCourse(course.id));
+            cell.appendChild(button);
+          });
+
+          grid.appendChild(cell);
+        }
+      }
+
+      function selectCourse(courseId) {
+        state.selectedCourseId = courseId;
+        google.script.run
+          .withSuccessHandler(renderCourseDetail)
+          .withFailureHandler((error) => {
+            setMessage('submitMessage', (error && error.message) || '講座詳細の取得に失敗しました。');
+          })
+          .getCourseDetail(courseId);
+      }
+
+      function renderCourseDetail(course) {
+        document.getElementById('detailEmpty').classList.add('hidden');
+        document.getElementById('detailView').classList.remove('hidden');
+        document.getElementById('detailTitle').textContent = course.title;
+        document.getElementById('detailBadges').innerHTML = [
+          '<span class="badge">' + escapeHtml(course.acceptanceStatus) + '</span>',
+          course.isPast ? '<span class="badge red">開催済み</span>' : '',
+          course.isToday ? '<span class="badge green">本日開催</span>' : ''
+        ].join('');
+        document.getElementById('detailMeta').innerHTML = [
+          metaBox('日時', course.dateLabel + ' ' + course.timeLabel),
+          metaBox('講師', course.teacher || '未設定'),
+          metaBox('開催方法', course.method || '未設定'),
+          metaBox('URL', course.detailUrl ? '<a href="' + escapeHtml(course.detailUrl) + '" target="_blank">講座URLを開く</a>' : '未設定')
+        ].join('');
+        document.getElementById('detailStats').innerHTML = [
+          statCard('出席', course.attendeeCount + '名'),
+          statCard('欠席', course.absenteeCount + '名'),
+          statCard('未定', course.pendingCount + '名'),
+          statCard('未回答', course.unansweredCount + '名')
+        ].join('');
+
+        const listBlocks = [];
+        if (state.appData.showParticipantNames) {
+          listBlocks.push(renderNameBlock('出席予定', course.attendees));
+          listBlocks.push(renderNameBlock('欠席予定', course.absentees));
+          listBlocks.push(renderNameBlock('未定', course.pendingParticipants));
+          listBlocks.push(renderNameBlock('未回答', course.unansweredParticipants));
+        } else {
+          listBlocks.push('<p class="hint">参加者名の一覧は非公開設定です。人数のみ表示しています。</p>');
+        }
+        document.getElementById('detailLists').innerHTML = listBlocks.join('');
+
+        renderStatusRadios();
+        updateSelectedParticipantName();
+      }
+
+      function renderStatusRadios() {
+        const container = document.getElementById('statusRadios');
+        container.innerHTML = state.appData.statuses.map((status, index) => (
+          '<label class="radio-card"><input type="radio" name="attendanceStatus" value="' +
+          escapeHtml(status) + '" ' + (index === 0 ? 'checked' : '') + ' />' +
+          escapeHtml(status) + '</label>'
+        )).join('');
+      }
+
+      function submitAttendance() {
+        const participantId = document.getElementById('participantSelect').value;
+        const statusNode = document.querySelector('input[name="attendanceStatus"]:checked');
+
+        if (!participantId) {
+          setMessage('submitMessage', 'お名前を選択してください。');
+          return;
+        }
+
+        google.script.run
+          .withSuccessHandler((result) => {
+            setMessage('submitMessage', result.message);
+            state.appData.courses = state.appData.courses.map((course) => (
+              course.id === result.course.id ? result.course : course
+            ));
+            renderCalendar();
+            renderCourseDetail(result.course);
+            renderTodayPanel();
+            loadMyResponses();
+          })
+          .withFailureHandler((error) => {
+            setMessage('submitMessage', (error && error.message) || '登録に失敗しました。');
+          })
+          .submitAttendance({
+            courseId: state.selectedCourseId,
+            participantId,
+            status: statusNode ? statusNode.value : ''
+          });
+      }
+
+      function loadMyResponses() {
+        const participantId = document.getElementById('mineParticipantSelect').value;
+        if (!participantId) return;
+
+        google.script.run
+          .withSuccessHandler((result) => {
+            document.getElementById('myResponses').innerHTML = result.responses.map((item) => (
+              '<div class="response-item">' +
+              '<strong>' + escapeHtml(item.courseTitle) + '</strong>' +
+              '<div>' + escapeHtml(item.dateLabel + ' ' + item.timeLabel) + '</div>' +
+              '<div class="badge-row" style="margin-top:10px;">' +
+              responseBadge(item.status) +
+              (item.updatedAt ? '<span class="badge">更新 ' + escapeHtml(item.updatedAt) + '</span>' : '') +
+              '</div>' +
+              '</div>'
+            )).join('');
+          })
+          .withFailureHandler((error) => {
+            document.getElementById('myResponses').innerHTML = '<p class="empty">' + escapeHtml((error && error.message) || '取得に失敗しました。') + '</p>';
+          })
+          .getMyResponses(participantId);
+      }
+
+      function renderTodayPanel() {
+        google.script.run
+          .withSuccessHandler((result) => {
+            state.todayCopyText = result.copyText || '';
+            const course = result.todayCourse || result.upcomingCourse;
+            const title = result.todayCourse ? '本日の講座' : '次回講座';
+            const container = document.getElementById('todayCard');
+
+            if (!course) {
+              container.innerHTML = '<p class="empty">表示できる講座がありません。</p>';
+              return;
+            }
+
+            container.innerHTML = [
+              '<div class="badge-row" style="margin-bottom:14px;">',
+              '<span class="badge">' + title + '</span>',
+              '<span class="badge green">参加予定 ' + course.attendeeCount + '名</span>',
+              '<span class="badge red">欠席 ' + course.absenteeCount + '名</span>',
+              '<span class="badge orange">未回答 ' + course.unansweredCount + '名</span>',
+              '</div>',
+              '<h3 style="margin:0 0 8px;">' + escapeHtml(course.title) + '</h3>',
+              '<p class="hint" style="margin-top:0;">' + escapeHtml(course.dateLabel + ' ' + course.timeLabel) + '</p>',
+              renderNameBlock('参加予定者', course.attendees),
+              renderNameBlock('未回答者', course.unansweredParticipants)
+            ].join('');
+          })
+          .withFailureHandler((error) => {
+            document.getElementById('todayCard').innerHTML = '<p class="empty">' + escapeHtml((error && error.message) || '表示に失敗しました。') + '</p>';
+          })
+          .getTodayDashboard();
+      }
+
+      function copyTodaySummary() {
+        if (!state.todayCopyText) {
+          setMessage('setupMessage', 'コピーできる講座情報がありません。');
+          return;
+        }
+
+        navigator.clipboard.writeText(state.todayCopyText)
+          .then(() => setMessage('setupMessage', '参加者一覧をコピーしました。'))
+          .catch(() => setMessage('setupMessage', 'コピーに失敗しました。'));
+      }
+
+      function runSetupSheets() {
+        google.script.run
+          .withSuccessHandler((result) => setMessage('setupMessage', result.message))
+          .withFailureHandler((error) => setMessage('setupMessage', (error && error.message) || 'シート準備に失敗しました。'))
+          .setupSheets();
+      }
+
+      function runSeedSample() {
+        google.script.run
+          .withSuccessHandler((result) => {
+            setMessage('setupMessage', result.message);
+            google.script.run
+              .withSuccessHandler(boot)
+              .withFailureHandler(showError)
+              .getAppData();
+          })
+          .withFailureHandler((error) => setMessage('setupMessage', (error && error.message) || 'サンプル投入に失敗しました。'))
+          .seedSampleData();
+      }
+
+      function moveMonth(diff) {
+        const [year, month] = state.selectedMonth.split('-').map(Number);
+        const nextDate = new Date(year, month - 1 + diff, 1);
+        state.selectedMonth = nextDate.getFullYear() + '-' + String(nextDate.getMonth() + 1).padStart(2, '0');
+        renderCalendar();
+      }
+
+      function renderNameBlock(label, names) {
+        return [
+          '<div class="list-block">',
+          '<h4>' + escapeHtml(label) + ' ' + (names ? names.length : 0) + '名</h4>',
+          names && names.length
+            ? '<div class="name-list">' + names.map((name) => '<span>' + escapeHtml(name) + '</span>').join('') + '</div>'
+            : '<p class="hint">なし</p>',
+          '</div>'
+        ].join('');
+      }
+
+      function statCard(label, value) {
+        return '<div class="stat-card"><div class="hint">' + escapeHtml(label) + '</div><strong>' + escapeHtml(value) + '</strong></div>';
+      }
+
+      function metaBox(label, value) {
+        return '<div><div class="hint">' + escapeHtml(label) + '</div><strong>' + value + '</strong></div>';
+      }
+
+      function responseBadge(status) {
+        if (status === '出席') return '<span class="badge green">出席</span>';
+        if (status === '欠席') return '<span class="badge red">欠席</span>';
+        if (status === '未定') return '<span class="badge orange">未定</span>';
+        return '<span class="badge">未回答</span>';
+      }
+
+      function setMessage(id, text) {
+        const el = document.getElementById(id);
+        el.textContent = text;
+        el.classList.remove('hidden');
+      }
+
+      function updateSelectedParticipantName() {
+        const participantId = document.getElementById('participantSelect').value;
+        const participant = state.appData && state.appData.participants
+          ? state.appData.participants.find((item) => item.id === participantId)
+          : null;
+        const box = document.getElementById('selectedParticipantName');
+
+        if (!participant) {
+          box.textContent = '';
+          box.classList.add('hidden');
+          return;
+        }
+
+        box.textContent = '選択中: ' + participant.name;
+        box.classList.remove('hidden');
+      }
+
+      function formatIsoDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return year + '-' + month + '-' + day;
+      }
+
+      function escapeHtml(text) {
+        return String(text || '')
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+    </script>
+  </body>
+</html>
