@@ -27,6 +27,16 @@ module.exports = async function handler(req, res) {
         }
       });
       const text = await response.text();
+      const normalized = String(text || '').trim();
+      const contentType = response.headers.get('content-type') || '';
+
+      if (looksLikeHtml_(normalized, contentType)) {
+        return res.status(502).json({
+          ok: false,
+          message: buildHtmlErrorMessage_(normalized)
+        });
+      }
+
       return res
         .status(response.ok ? 200 : response.status)
         .setHeader('Content-Type', 'application/json; charset=utf-8')
@@ -46,6 +56,16 @@ module.exports = async function handler(req, res) {
         body: JSON.stringify(req.body || {})
       });
       const text = await response.text();
+      const normalized = String(text || '').trim();
+      const contentType = response.headers.get('content-type') || '';
+
+      if (looksLikeHtml_(normalized, contentType)) {
+        return res.status(502).json({
+          ok: false,
+          message: buildHtmlErrorMessage_(normalized)
+        });
+      }
+
       return res
         .status(response.ok ? 200 : response.status)
         .setHeader('Content-Type', 'application/json; charset=utf-8')
@@ -63,3 +83,29 @@ module.exports = async function handler(req, res) {
     });
   }
 };
+
+function looksLikeHtml_(text, contentType) {
+  return (
+    String(contentType).toLowerCase().includes('text/html') ||
+    /^<!doctype html/i.test(text) ||
+    /^<html/i.test(text)
+  );
+}
+
+function buildHtmlErrorMessage_(html) {
+  const lower = String(html || '').toLowerCase();
+
+  if (
+    lower.includes('google accounts') ||
+    lower.includes('serviceLogin'.toLowerCase()) ||
+    lower.includes('sign in')
+  ) {
+    return 'GAS がログイン画面を返しています。Web アプリの公開設定を「全員」にしてください。';
+  }
+
+  if (lower.includes('script') && lower.includes('error')) {
+    return 'GAS がエラーページを返しています。Apps Script のデプロイ設定か実行ログを確認してください。';
+  }
+
+  return 'GAS から JSON ではなく HTML が返りました。Web アプリURLと公開設定を確認してください。';
+}

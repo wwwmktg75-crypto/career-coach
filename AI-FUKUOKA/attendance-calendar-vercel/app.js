@@ -391,7 +391,7 @@ function escapeHtml(text) {
 async function apiGet(action, params = {}) {
   const search = new URLSearchParams({ action, ...params });
   const response = await fetch('/api/gas?' + search.toString());
-  const payload = await response.json();
+  const payload = await readJsonSafely(response);
   if (!response.ok || !payload.ok) {
     throw new Error(payload.message || 'API エラーが発生しました。');
   }
@@ -406,9 +406,23 @@ async function apiPost(action, payload = {}) {
     },
     body: JSON.stringify({ action, payload })
   });
-  const result = await response.json();
+  const result = await readJsonSafely(response);
   if (!response.ok || !result.ok) {
     throw new Error(result.message || 'API エラーが発生しました。');
   }
   return result.data;
+}
+
+async function readJsonSafely(response) {
+  const text = await response.text();
+
+  try {
+    return JSON.parse(text);
+  } catch (error) {
+    const snippet = String(text || '').trim().slice(0, 120);
+    throw new Error(
+      'JSON ではない応答を受け取りました。' +
+      (snippet ? ' 先頭: ' + snippet : '')
+    );
+  }
 }
