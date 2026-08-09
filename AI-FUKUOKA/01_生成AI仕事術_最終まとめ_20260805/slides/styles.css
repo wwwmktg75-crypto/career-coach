@@ -277,7 +277,7 @@ a {
 }
 
 .title--hero {
-  font-size: clamp(2.6rem, 4.4vw, 4.6rem);
+  font-size: clamp(2.15rem, 3.7vw, 3.8rem);
   line-height: 1.05;
 }
 
@@ -289,6 +289,11 @@ a {
 
 .title--chapter {
   font-size: clamp(2.7rem, 4.4vw, 4.4rem);
+}
+
+.title--slide-8 {
+  font-size: clamp(1.75rem, 2.45vw, 2.45rem);
+  line-height: 1.18;
 }
 
 .chapter-accent--single-line {
@@ -367,8 +372,8 @@ a {
 .hero-grid {
   height: 100%;
   display: grid;
-  grid-template-columns: 1.05fr 1fr;
-  gap: 32px;
+  grid-template-columns: 0.82fr 1.18fr;
+  gap: 20px;
   align-items: center;
 }
 
@@ -389,6 +394,10 @@ a {
   padding: 0;
   border: none;
   background: transparent;
+}
+
+.art-panel--cover-offset {
+  margin-top: 26px;
 }
 
 .art-panel--plain {
@@ -421,6 +430,15 @@ a {
   align-items: center;
   justify-content: center;
   height: 100%;
+}
+
+.art-panel--message-lg {
+  padding-top: 8px;
+}
+
+.art-panel--message-up {
+  align-items: flex-start;
+  padding-top: 0;
 }
 
 .slide-illustration {
@@ -466,9 +484,18 @@ a {
 }
 
 .slide-illustration--message {
-  max-height: 640px;
+  max-height: 610px;
   object-fit: contain;
   border-radius: 18px;
+}
+
+.slide-illustration--message-lg {
+  max-height: 660px;
+  border-radius: 12px;
+}
+
+.slide-illustration--message-up {
+  max-height: 635px;
 }
 
 .mindset-triptych {
@@ -544,14 +571,14 @@ a {
 .mindset-panel__label {
   position: absolute;
   left: 18px;
-  top: -6px;
+  top: -16px;
   margin: 0;
-  padding: 12px 18px;
+  padding: 14px 22px;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.92);
   color: var(--accent-deep);
   font-weight: 800;
-  font-size: 1.02rem;
+  font-size: 1.14rem;
   line-height: 1.2;
   box-shadow: 0 8px 24px rgba(27, 36, 50, 0.08);
   z-index: 2;
@@ -732,6 +759,11 @@ a {
   align-items: start;
 }
 
+.two-column--intro {
+  grid-template-columns: minmax(0, 1.42fr) minmax(250px, 0.58fr);
+  gap: 18px;
+}
+
 .bullet-list {
   display: grid;
   gap: 10px;
@@ -770,6 +802,16 @@ a {
 .request-output-stack {
   display: grid;
   gap: 14px;
+}
+
+.request-output-stack--intro .callout {
+  margin-right: -34px;
+  position: relative;
+  z-index: 1;
+}
+
+.intro-visual {
+  padding-top: 44px;
 }
 
 .request-output__column {
