@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Summer School Illustrations"
+  short_description: "AI SUMMER SCHOOL用の統一イラスト生成ガイドとプロンプト集"
+  default_prompt: "Use $ai-summer-school-illustrations to generate or refine AI SUMMER SCHOOL 2026 illustrations."

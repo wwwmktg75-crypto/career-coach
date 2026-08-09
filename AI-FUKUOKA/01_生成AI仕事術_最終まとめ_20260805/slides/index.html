@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AIの歩き方 2026年8月最新版</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <svg class="icon-sprite" aria-hidden="true" focusable="false">
+    <symbol id="icon-chat" viewBox="0 0 24 24">
+      <path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v7A2.5 2.5 0 0 1 17.5 16H10l-4 4v-4.5A2.5 2.5 0 0 1 4 13z"></path>
+    </symbol>
+    <symbol id="icon-desktop" viewBox="0 0 24 24">
+      <rect x="3" y="4" width="18" height="12" rx="2"></rect>
+      <path d="M8 20h8M12 16v4"></path>
+    </symbol>
+    <symbol id="icon-doc" viewBox="0 0 24 24">
+      <path d="M7 3h7l4 4v14H7z"></path>
+      <path d="M14 3v4h4M9 12h6M9 16h6"></path>
+    </symbol>
+    <symbol id="icon-grid" viewBox="0 0 24 24">
+      <rect x="4" y="4" width="6" height="6"></rect>
+      <rect x="14" y="4" width="6" height="6"></rect>
+      <rect x="4" y="14" width="6" height="6"></rect>
+      <rect x="14" y="14" width="6" height="6"></rect>AIとの関わり方は、プロンプトからループ設計へ進化している
+    </symbol>
+    <symbol id="icon-check" viewBox="0 0 24 24">
+      <path d="M5 12.5 10 17l9-10"></path>
+    </symbol>
+    <symbol id="icon-search" viewBox="0 0 24 24">
+      <circle cx="11" cy="11"
+       r="6"></circle>
+      <path d="m20 20-4.2-4.2"></path>さい
+    </symbol>4
+    <symbol id="icon-lightbulb" viewBox="0 0 24 24">
+      <path d="M9 18h6M10 21h4M8 14a6 6 0 1 1 8 0c-1 1-1.5 2-1.5 3h-5C9.5 16 9 15 8 14Z"></path>
+    </symbol>
+    <symbol id="icon-folder" viewBox="0 0 24 24">
+      <path d="M3 7h6l2 2h10v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+    </symbol>
+    <symbol id="icon-users" viewBox="0 0 24 24">
+      <circle cx="8" cy="9" r="3"></circle>
+      <circle cx="16" cy="8" r="2.5"></circle>
+      <path d="M3.5 18a4.5 4.5 0 0 1 9 0M13 18a3.8 3.8 0 0 1 7.5 0"></path>
+    </symbol>
+    <symbol id="icon-arrow-right" viewBox="0 0 24 24">
+      <path d="M4 12h15"></path>
+      <path d="m13 6 6 6-6 6"></path>
+    </symbol>
+    <symbol id="icon-play" viewBox="0 0 24 24">
+      <path d="M8 6v12l10-6z"></path>
+    </symbol>
+  </svg>
+
+  <div class="app-shell">
+    <aside class="rail" aria-label="スライド一覧">
+      <div class="rail__inner">
+        <p class="rail__eyebrow">AI-Fukuoka</p>
+        <h1 class="rail__title">生成AIの歩き方 2026</h1>
+        <p class="rail__subtitle">2026年8月最新版 / 通しスライド実装</p>
+
+        <nav class="toc">
+          <a class="toc__link" href="#slide-1">1 生成AIの歩き方</a>
+          <a class="toc__link" href="#slide-2">2 はじめに</a>
+          <a class="toc__link" href="#slide-3">3 初めに</a>
+          <a class="toc__link" href="#slide-4">4 目次</a>
+          <a class="toc__link" href="#slide-5">5 第1章扉</a>
+          <a class="toc__link" href="#slide-6">6 LLMとは</a>
+          <a class="toc__link" href="#slide-7">7 LLMを作るプレイヤー</a>
+          <a class="toc__link" href="#slide-8">8 文章はどう作られるか</a>
+          <a class="toc__link" href="#slide-9">9 得意と苦手</a>
+          <a class="toc__link" href="#slide-10">10 マルチモーダル</a>
+          <a class="toc__link" href="#slide-11">11 モデルの選び方</a>
+          <a class="toc__link" href="#slide-12">12 無料版と有料版</a>
+          <a class="toc__link" href="#slide-13">13 チャット型AIとPC操作・実行型AI</a>
+          <a class="toc__link" href="#slide-14">14 LLM提供と上物サービス</a>
+          <a class="toc__link" href="#slide-15">15 2026年新常識</a>
+          <a class="toc__link" href="#slide-16">16 チャットからエージェントへ</a>
+          <a class="toc__link" href="#slide-17">17 AIとの関わり方の進化</a>
+          <a class="toc__link" href="#slide-18">18 人はループの外側へ</a>
+          <a class="toc__link" href="#slide-19">19 人間に残る価値</a>
+          <a class="toc__link" href="#slide-20">20 第3章扉</a>
+          <a class="toc__link" href="#slide-21">21 情報漏えい</a>
+          <a class="toc__link" href="#slide-22">22 誤情報・ハルシネーション</a>
+          <a class="toc__link" href="#slide-23">23 著作権・権利侵害</a>
+          <a class="toc__link" href="#slide-24">24 セキュリティリスク</a>
+          <a class="toc__link" href="#slide-25">25 AIの勝手な実行・誤操作</a>
+          <a class="toc__link" href="#slide-26">26 第4章扉</a>
+          <a class="toc__link" href="#slide-27">27 講座を組み合わせるとできること 1</a>
+          <a class="toc__link" href="#slide-28">28 講座を組み合わせるとできること 2</a>
+          <a class="toc__link" href="#slide-29">29 仕事を速くしたい人へ</a>
+          <a class="toc__link" href="#slide-30">30 AIに仕事を任せたい人へ</a>
+          <a class="toc__link" href="#slide-31">31 最後に</a>
+          <a class="toc__link" href="#slide-32">32 メッセージ</a>
+        </nav>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <div>
+          <p class="topbar__eyebrow">SLIDE OUTPUT</p>
+          <p class="topbar__title">AIの歩き方 2026年8月最新版</p>
+        </div>
+        <div class="topbar__actions">
+          <p class="topbar__counter" id="slide-counter">1 / 32</p>
+          <button class="action-button" type="button" data-action="print">印刷 / PDF</button>
+        </div>
+      </header>
+
+      <main class="deck" id="deck">
+        <section class="slide slide--cover" id="slide-1" data-title="生成AIの歩き方">
+          <div class="slide__frame">
+            <div class="slide__chapter">AUG 2026</div>
+            <div class="hero-grid">
+              <div class="hero-copy">
+                <p class="eyebrow">AI SUMMER SCHOOL / AUGUST 2026</p>
+                <h2 class="title title--hero">生成AIの歩き方<br><span class="accent hero-subtitle">2026年8月最新版</span></h2>
+              </div>
+
+              <figure class="art-panel art-panel--cover">
+                <img
+                  class="slide-illustration slide-illustration--cover"
+                  src="./images/new-cover.png"
+                  alt="生成AIの山へ向かって大人の参加者たちが歩き出すAI SUMMER SCHOOL 2026向けの表紙イラスト"
+                >
+              </figure>
+            </div>
+            <div class="slide__number">1</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-2" data-title="はじめに">
+          <div class="slide__frame">
+            <div class="slide__tag">序章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <h2 class="title"><span class="accent">生成AIを使いこなすための心構え</span></h2>
+              </div>
+
+              <div class="mindset-triptych" aria-label="3つの心構え">
+                <figure class="mindset-panel">
+                  <div
+                    class="mindset-panel__visual mindset-panel__visual--left"
+                    aria-label="AIの話題に振り回されず落ち着いて構える女性のイラスト"
+                  ></div>
+                  <figcaption class="mindset-panel__label">1 焦らない</figcaption>
+                </figure>
+                <figure class="mindset-panel">
+                  <div
+                    class="mindset-panel__visual mindset-panel__visual--center"
+                    aria-label="自分の課題に集中して一つの作業に向き合う女性のイラスト"
+                  ></div>
+                  <figcaption class="mindset-panel__label">2 課題から考える</figcaption>
+                </figure>
+                <figure class="mindset-panel">
+                  <div
+                    class="mindset-panel__visual mindset-panel__visual--right"
+                    aria-label="副業で100万や稼げるスキルなどの煽りSNSに惑わされず、自分のペースを守る女性のイラスト"
+                  >
+                    <div class="mindset-overlay mindset-overlay--warning">
+                      <span>副業で100万</span>
+                      <span>稼げるスキル</span>
+                      <span>SNSの煽り</span>
+                    </div>
+                  </div>
+                  <figcaption class="mindset-panel__label">3 惑わされない</figcaption>
+                </figure>
+              </div>
+            </div>
+            <div class="slide__number">2</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-3" data-title="初めに">
+          <div class="slide__frame">
+            <div class="slide__tag">序章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">はじめに</p>
+                <h2 class="title">自分に必要なこと・やりたいことに落とし込んで<span class="accent">経験値を積み上げる</span></h2>
+              </div>
+
+              <div class="two-column two-column--wide">
+                <div class="request-output-stack">
+                  <p class="callout">
+                    AIのニュースは速いですが、すべてを追う必要はありません。
+                    いちばん大事なのは、自分の仕事で使ってみて、「本当に楽になった」という小さな成功体験を作ることです。
+                  </p>
+
+                  <div class="request-output">
+                    <div class="request-output__column">
+                      <p class="mini-label">追いかけなくていい</p>
+                      <div class="stack-card">毎日の最新ニュース</div>
+                      <div class="stack-card">すべての新ツール</div>
+                      <div class="stack-card">SNSの話題</div>
+                    </div>
+                    <div class="request-output__arrow">
+                      <svg class="icon icon--large"><use href="#icon-arrow-right"></use></svg>
+                    </div>
+                    <div class="request-output__column">
+                      <p class="mini-label">まず積み上げる</p>
+                      <div class="stack-card stack-card--accent">自分の仕事で試す</div>
+                      <div class="stack-card stack-card--accent">小さく効率化する</div>
+                      <div class="stack-card stack-card--accent">使える形を残す</div>
+                    </div>
+                  </div>
+
+                  <p class="footer-note">1回で完璧を目指すより、少しずつ良くするほうが実務では強いです。</p>
+                </div>
+
+                <div>
+                  <figure class="art-panel art-panel--plain">
+                    <img
+                      class="slide-illustration slide-illustration--inline"
+                      src="./images/summer-school-small-wins-cut.png"
+                      alt="情報を追いすぎず、小さな成功体験を積み上げる女性のイラスト"
+                    >
+                  </figure>
+                </div>
+              </div>
+            </div>
+            <div class="slide__number">3</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-4" data-title="目次">
+          <div class="slide__frame">
+            <div class="slide__main">
+              <div class="slide__header">
+                <h2 class="title">目次</h2>
+              </div>
+
+              <div class="map-flow">
+                <article class="map-step">
+                  <div class="map-step__index">1</div>
+                  <div>
+                    <h3>知っておきたい基礎知識</h3>
+                    <p>LLMの基礎から、モデル選び・課金・AIの使い分けまで押さえる</p>
+                  </div>
+                </article>
+                <article class="map-step">
+                  <div class="map-step__index">2</div>
+                  <div>
+                    <h3>2026年新常識</h3>
+                    <p>チャットからAIエージェントへ、人の役割の変化までつかむ</p>
+                  </div>
+                </article>
+                <article class="map-step">
+                  <div class="map-step__index">3</div>
+                  <div>
+                    <h3>失敗しないためのルール</h3>
+                    <p>5大リスクと安全対策</p>
+                  </div>
+                </article>
+                <article class="map-step map-step--accent">
+                  <div class="map-step__index">4</div>
+                  <div>
+                    <h3>学びをつなげて、仕事でできるに変える</h3>
+                    <p>講座を組み合わせて、作れること・任せられることを広げる</p>
+                  </div>
+                </article>
+              </div>
+
+              <p class="footer-note">基礎、変化、リスク、実践イメージまでを通して、AIを仕事の味方にする全体像をつかみます。</p>
+            </div>
+            <div class="slide__number">4</div>
+          </div>
+        </section>
+
+        <section class="slide slide--chapter" id="slide-5" data-title="第1章扉">
+          <div class="slide__frame">
+            <div class="chapter-hero">
+              <div class="chapter-hero__number">1</div>
+              <div class="chapter-hero__body">
+                <p class="eyebrow">CHAPTER 01</p>
+                <h2 class="title title--chapter">知っておきたい基礎知識</h2>
+                <div class="chapter-points">
+                  <span>LLM</span>
+                  <span>学び方</span>
+                  <span>開発プレイヤー</span>
+                  <span>文章生成の仕組み</span>
+                  <span>得意 / 苦手</span>
+                </div>
+              </div>
+            </div>
+            <div class="slide__number">5</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-6" data-title="LLMとは">
+          <div class="slide__frame">
+            <div class="side-pill">第1章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">1-1</p>
+                <h2 class="title"><span class="accent">LLM（大規模言語モデル）とは</span></h2>
+              </div>
+
+              <figure class="art-panel art-panel--plain art-panel--message">
+                <img
+                  class="slide-illustration slide-illustration--message"
+                  src="./images/aboutllm.png"
+                  alt="LLMの概要を説明する図解"
+                >
+              </figure>
+            </div>
+            <div class="slide__number">6</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-7" data-title="LLMを作るプレイヤー">
+          <div class="slide__frame">
+            <div class="side-pill">第1章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">1-2</p>
+                <h2 class="title">生成AI開発は<span class="accent">国家間の競争</span>に</h2>
+              </div>
+
+              <figure class="art-panel art-panel--plain art-panel--message">
+                <img
+                  class="slide-illustration slide-illustration--message"
+                  src="./images/slide-7-ai-dev.png"
+                  alt="生成AI開発が国家間競争になっている状況を説明する図"
+                >
+              </figure>
+            </div>
+            <div class="slide__number">7</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-8" data-title="文章はどう作られるか">
+          <div class="slide__frame">
+            <div class="side-pill">第1章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">1-2</p>
+                <h2 class="title">AIは「意味を理解している」より、<span class="accent">次の言葉を選んでいる</span></h2>
+              </div>
+
+              <figure class="art-panel art-panel--plain art-panel--message">
+                <img
+                  class="slide-illustration slide-illustration--message"
+                  src="./images/AI-word.png"
+                  alt="AIが次の言葉を選びながら文章を作る仕組みを説明する図"
+                >
+              </figure>
+            </div>
+            <div class="slide__number">8</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-9" data-title="得意と苦手">
+          <div class="slide__frame">
+            <div class="side-pill">第1章</div>
+            <div class="slide__main">
+              <figure class="art-panel art-panel--plain art-panel--message">
+                <img
+                  class="slide-illustration slide-illustration--message"
+                  src="./images/slide-9-ai-tokui.png"
+                  alt="AIの得意なことや、壁打ち相手としての使いやすさを表したイラスト"
+                >
+              </figure>
+            </div>
+            <div class="slide__number">9</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-10" data-title="マルチモーダル">
+          <div class="slide__frame">
+            <div class="side-pill">第1章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">1-4</p>
+                <h2 class="title">マルチモーダル = 「見て・聞いて・読んで」<span class="accent">一緒に理解する</span></h2>
+              </div>
+
+              <div class="split-panel">
+                <article class="split-panel__pane">
+                  <div class="pane-head">
+                    <svg class="icon icon--panel"><use href="#icon-chat"></use></svg>
+                    <h3>昔のAI</h3>
+                  </div>
+                  <ul class="mini-list">
+                    <li>文字入力が中心</li>
+                    <li>テキストだけでやり取りする</li>
+                    <li>説明しないと伝わらないことが多い</li>
+                  </ul>
+                </article>
+                <article class="split-panel__pane split-panel__pane--accent">
+                  <div class="pane-head">
+                    <svg class="icon icon--panel"><use href="#icon-doc"></use></svg>
+                    <h3>2026年のAI</h3>
+                  </div>
+                  <ul class="mini-list">
+                    <li>画像、音声、PDF、表も一緒に扱える</li>
+                    <li>ホワイトボード写真から議事録化できる</li>
+                    <li>ファイルを読ませながら会話できる</li>
+                  </ul>
+                </article>
+              </div>
+
+              <p class="callout">たとえるなら、ラジオから対面打ち合わせへ進化したイメージです。</p>
+            </div>
+            <div class="slide__number">10</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-11" data-title="モデルの選び方">
+          <div class="slide__frame">
+            <div class="side-pill">第1章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">1-5</p>
+                <h2 class="title">どのモデルでもある程度の実務はできる。<span class="accent">あとは相性で選べばOK</span></h2>
+              </div>
+
+              <p class="callout">
+                モデルも非常に賢くなっているので、どのモデルを使ってもある程度の仕事や実務はこなせます。
+                そのうえで、各モデルの特徴を自分で体験して把握し、どれが自分に合うかで選択すれば大丈夫です。
+              </p>
+
+              <div class="comparison-grid">
+                <article class="compare-card">
+                  <div class="brand-row">
+                    <span class="brand-chip brand-chip--chatgpt">ChatGPT</span>
+                  </div>
+                  <h3>ChatGPT系</h3>
+                  <p class="compare-card__lead">キビキビ派。テンポよく試して進めたい人向き。</p>
+                  <ul class="mini-list">
+                    <li>返答が速く、試行回数を回しやすい</li>
+                    <li>相談、たたき台、文章作成を軽快に進めやすい</li>
+                    <li>最初の1本として選びやすい</li>
+                  </ul>
+                </article>
+                <article class="compare-card">
+                  <div class="brand-row">
+                    <span class="brand-chip brand-chip--claude">Claude</span>
+                  </div>
+                  <h3>Claude系</h3>
+                  <p class="compare-card__lead">深く考えて、丁寧に仕事を進めたい人向き。</p>
+                  <ul class="mini-list">
+                    <li>長文読解や資料整理と相性がよい</li>
+                    <li>自然で落ち着いた文面を作りやすい</li>
+                    <li>じっくり考えさせたい仕事で選ばれやすい</li>
+                  </ul>
+                </article>
+                <article class="compare-card">
+                  <div class="brand-row">
+                    <span class="brand-chip brand-chip--gemini">Gemini</span>
+                  </div>
+                  <h3>Gemini系</h3>
+                  <p class="compare-card__lead">Google Workspace や Google サービスをよく使う人向き。</p>
+                  <ul class="mini-list">
+                    <li>Gmail、Drive、Docs などと相性がよい</li>
+                    <li>普段のGoogle環境の延長で使いやすい</li>
+                    <li>社内でGoogle中心なら入りやすい</li>
+                  </ul>
+                </article>
+              </div>
+
+              <p class="footer-note">迷ったら、まず1つ使ってみる。そのうえで「速さ」「深さ」「普段の業務環境」との相性で選ぶと失敗しにくいです。</p>
+            </div>
+            <div class="slide__number">11</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-12" data-title="無料版と有料版">
+          <div class="slide__frame">
+            <div class="side-pill">第1章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">料金プラン</p>
+                <h2 class="title">無料版は入口。<span class="accent">一歩先をやるなら課金が必要になりやすい</span></h2>
+              </div>
+
+              <figure class="art-panel art-panel--plain art-panel--message">
+                <img
+                  class="slide-illustration slide-illustration--message"
+                  src="./images/slide-12-kakin.png"
+                  alt="無料版と有料版の違いや、課金が必要になりやすい場面を説明する図"
+                >
+              </figure>
+            </div>
+            <div class="slide__number">12</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-13" data-title="チャット型AIとPC操作・実行型AI">
+          <div class="slide__frame">
+            <div class="side-pill">第1章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">使い方の違い</p>
+                <h2 class="title">チャット型AIと<span class="accent">PC操作・実行型AI</span>の違い</h2>
+              </div>
+
+              <figure class="art-panel art-panel--plain art-panel--message">
+                <img
+                  class="slide-illustration slide-illustration--message"
+                  src="./images/slide-13-desktop.png"
+                  alt="チャット型AIとPC操作・実行型AIの使い分けを説明する図"
+                >
+              </figure>
+            </div>
+            <div class="slide__number">13</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-14" data-title="LLM提供と上物サービス">
+          <div class="slide__frame">
+            <div class="side-pill">第1章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">1-8</p>
+                <h2 class="title">LLM提供サービスと<span class="accent">上物サービス</span>は、役割の層が違う</h2>
+              </div>
+
+              <figure class="art-panel art-panel--plain art-panel--message">
+                <img
+                  class="slide-illustration slide-illustration--message"
+                  src="./images/uwamono.png"
+                  alt="LLM提供サービスと上物サービスの違いを説明する図"
+                >
+              </figure>
+            </div>
+            <div class="slide__number">14</div>
+          </div>
+        </section>
+
+        <section class="slide slide--chapter" id="slide-15" data-title="2026年新常識">
+          <div class="slide__frame">
+            <div class="chapter-hero">
+              <div class="chapter-hero__number">2</div>
+              <div class="chapter-hero__body">
+                <p class="eyebrow">CHAPTER 02</p>
+                <h2 class="title title--chapter">2026年新常識<br><span class="accent chapter-accent--single-line">チャットからAIエージェントへ</span></h2>
+                <div class="chapter-points">
+                  <span>2024年、2025年との違い</span>
+                  <span>進化段階</span>
+                  <span>Human on the loop</span>
+                  <span>メタスキル</span>
+                </div>
+              </div>
+            </div>
+            <div class="slide__number">15</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-16" data-title="チャットからエージェントへ">
+          <div class="slide__frame">
+            <div class="side-pill">第2章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">2-1</p>
+                <h2 class="title">変化の中心は、<span class="accent">1問1答</span>から自律実行へ</h2>
+              </div>
+
+              <figure class="art-panel art-panel--plain art-panel--message">
+                <img
+                  class="slide-illustration slide-illustration--message"
+                  src="./images/agent.png"
+                  alt="チャット型AIからAIエージェントへの変化を説明する図"
+                >
+              </figure>
+            </div>
+            <div class="slide__number">16</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-17" data-title="AIとの関わり方の進化">
+          <div class="slide__frame">
+            <div class="side-pill">第2章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">2-2</p>
+                <h2 class="title">AIとの関わり方は、<span class="accent">プロンプトからループ設計</span>へ</h2>
+              </div>
+
+              <figure class="art-panel art-panel--plain art-panel--slide-29">
+                <img
+                  class="slide-illustration slide-illustration--slide-29"
+                  src="./images/slide-29-context-loop.png"
+                  alt="プロンプトからループ設計への変化と、AIとの関わり方4段階、3層のループ構造をまとめた図解"
+                >
+              </figure>
+            </div>
+            <div class="slide__number">17</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-18" data-title="人はループの外側へ">
+          <div class="slide__frame">
+            <div class="side-pill">第2章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">2-3</p>
+                <h2 class="title">人は毎回指示する役から、<span class="accent">ループの外側で監督する役</span>へ</h2>
+              </div>
+
+              <div class="role-split">
+                <article class="role-split__pane">
+                  <p class="mini-label">Human in the loop</p>
+                  <ul class="check-list">
+                    <li>毎回プロンプトを書く</li>
+                    <li>手順を細かく指定する</li>
+                    <li>途中の判断もその都度人が行う</li>
+                    <li>AIは補助ツールとして使う</li>
+                  </ul>
+                </article>
+                <article class="role-split__pane role-split__pane--accent">
+                  <p class="mini-label">Human on the loop</p>
+                  <ul class="check-list">
+                    <li>目的と制約を決める</li>
+                    <li>AIが作業ループを回す</li>
+                    <li>人は監督と方向修正を行う</li>
+                    <li>最終責任と判断は人が持つ</li>
+                  </ul>
+                </article>
+              </div>
+
+              <p class="callout">速いループはAIが数分単位で回し、中くらいのループで人が方向修正し、長いループで利用者や現場の声を受けて方針を更新します。</p>
+            </div>
+            <div class="slide__number">18</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-19" data-title="人間に残る価値">
+          <div class="slide__frame">
+            <div class="side-pill">第2章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">2-4</p>
+                <h2 class="title">AI時代に人が鍛えるべきなのは、<span class="accent">個別スキルよりメタスキル</span></h2>
+              </div>
+
+              <div class="split-panel">
+                <article class="split-panel__pane">
+                  <div class="pane-head">
+                    <svg class="icon icon--panel"><use href="#icon-play"></use></svg>
+                    <h3>AIに任せる発想</h3>
+                  </div>
+                  <ul class="mini-list">
+                    <li>1案ではなく、100案を一気に出させる</li>
+                    <li>量を出す、整理する、比べる仕事をまとめて任せる</li>
+                    <li>ガムシャラな作業量で競うより、AIを労働力として使う</li>
+                    <li>人はその中から良いものを選ぶ</li>
+                  </ul>
+                </article>
+                <article class="split-panel__pane split-panel__pane--accent">
+                  <div class="pane-head">
+                    <svg class="icon icon--panel"><use href="#icon-lightbulb"></use></svg>
+                    <h3>人が鍛えるもの</h3>
+                  </div>
+                  <ul class="mini-list">
+                    <li>設計の仕方や学び方そのもの</li>
+                    <li>情報の流れを読む力</li>
+                    <li>現場の暗黙知や文脈の注入</li>
+                    <li>こうしたい、これが良いという方向性と価値判断</li>
+                  </ul>
+                </article>
+              </div>
+
+              <p class="callout">AIと競争するより、AIを動かす側へ回る。実務ではこの見方のほうが、長く効く考え方になります。</p>
+            </div>
+            <div class="slide__number">19</div>
+          </div>
+        </section>
+
+        <section class="slide slide--chapter" id="slide-20" data-title="第3章扉">
+          <div class="slide__frame">
+            <div class="chapter-hero">
+              <div class="chapter-hero__number">3</div>
+              <div class="chapter-hero__body">
+                <p class="eyebrow">CHAPTER 03</p>
+                <h2 class="title title--chapter">失敗しないためのルール<br><span class="accent">5大リスクと安全対策</span></h2>
+                <div class="chapter-points">
+                  <span>情報漏えい</span>
+                  <span>誤情報</span>
+                  <span>著作権</span>
+                  <span>セキュリティ</span>
+                  <span>勝手な実行</span>
+                </div>
+              </div>
+            </div>
+            <div class="slide__number">20</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-21" data-title="情報漏えい">
+          <div class="slide__frame">
+            <div class="side-pill">第3章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">リスク1</p>
+                <h2 class="title">情報漏えい = <span class="accent">入れた情報が外部サービスに渡る</span>前提で考える</h2>
+              </div>
+
+              <div class="two-column">
+                <div>
+                  <p class="callout">
+                    2026年は、管理されていないAI利用や業務データ入力が大きなリスクとして見られています。
+                    まずは「ネットに公開できない情報は、そのままAIに入れない」を徹底します。
+                  </p>
+                  <div class="info-strip">
+                    <strong>入れない</strong>
+                    <span>個人情報 / 契約書 / 機密資料 / パスワード / APIキー / 公開前の企画情報</span>
+                  </div>
+                </div>
+
+                <div>
+                  <p class="mini-label">安全ルール</p>
+                  <ul class="bullet-list">
+                    <li>利用規約・プライバシーポリシー・学習設定を確認する</li>
+                    <li>顧客名や売上などは匿名化・抽象化してから使う</li>
+                    <li>法人契約や社内ルールのある環境を優先する</li>
+                    <li>どのサービスに、どの契約・設定で、何を入れるかを分けて考える</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="slide__number">21</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-22" data-title="誤情報・ハルシネーション">
+          <div class="slide__frame">
+            <div class="side-pill">第3章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">リスク2</p>
+                <h2 class="title">誤情報・ハルシネーション = <span class="accent">AIを100%信じない</span></h2>
+              </div>
+
+              <div class="split-panel">
+                <article class="split-panel__pane">
+                  <h3>起こること</h3>
+                  <ul class="mini-list">
+                    <li>存在しない情報、URL、論文、法律をそれらしく出す</li>
+                    <li>古い情報や間違った数字を自然な文章で返す</li>
+                    <li>「文章が上手い = 正しい」と思い込みやすい</li>
+                  </ul>
+                </article>
+                <article class="split-panel__pane split-panel__pane--accent">
+                  <h3>安全ルール</h3>
+                  <ul class="mini-list">
+                    <li>重要な情報ほど一次情報と公開日を確認する</li>
+                    <li>AIには「出典を付ける」「一次情報を優先する」と指示する</li>
+                    <li>法律・税務・医療・金融・契約・採用はAIだけで完結させない</li>
+                    <li>役割分担は「AIが下調べ、人間が最終判断」</li>
+                  </ul>
+                </article>
+              </div>
+
+              <p class="callout">AIは、自信満々に間違える。だから「使わない」ではなく、「確認して使う」が基本です。</p>
+            </div>
+            <div class="slide__number">22</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-23" data-title="著作権・権利侵害">
+          <div class="slide__frame">
+            <div class="side-pill">第3章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">リスク3</p>
+                <h2 class="title">著作権・権利侵害 = <span class="accent">AI生成だから自由</span>ではない</h2>
+              </div>
+
+              <div class="two-column">
+                <div>
+                  <p class="mini-label">注意したいこと</p>
+                  <ul class="bullet-list">
+                    <li>有名キャラクターに酷似した画像はそのまま使わない</li>
+                    <li>特定作家の作品に似すぎた表現は避ける</li>
+                    <li>他サイト記事のほぼコピーになっていないか確認する</li>
+                    <li>他社ロゴ、ブランド表現、肖像権、商標権にも注意する</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p class="mini-label">基本ルール</p>
+                  <ul class="bullet-list">
+                    <li>「AIが作った = 自由に使える」ではない</li>
+                    <li>商用利用前に人間が確認する</li>
+                    <li>そのまま公開せず、編集と判断を入れる</li>
+                    <li>迷うものは使わない判断も持つ</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="slide__number">23</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-24" data-title="セキュリティリスク">
+          <div class="slide__frame">
+            <div class="side-pill">第3章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">リスク4</p>
+                <h2 class="title">セキュリティリスク = <span class="accent">AIも騙される</span></h2>
+              </div>
+
+              <div class="two-column">
+                <div>
+                  <p class="mini-label">起こること</p>
+                  <ul class="bullet-list">
+                    <li>悪意あるページやファイルの指示をAIが信じることがある</li>
+                    <li>プロンプトインジェクションで想定外の動きになることがある</li>
+                    <li>AI生成コードに脆弱性や危険な処理が入ることがある</li>
+                    <li>不適切なアクセス権限を含むコードや設定を提案することがある</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p class="mini-label">基本ルール</p>
+                  <ul class="bullet-list">
+                    <li>外部情報をそのまま信用させない</li>
+                    <li>AI生成コードは必ず人が確認する</li>
+                    <li>権限は最小限に絞る</li>
+                    <li>不審な入力やファイルは実行前に止める</li>
+                  </ul>
+                </div>
+              </div>
+
+              <p class="callout">AIが賢く見えても、外部から騙される可能性はあります。だからコードも指示も確認して使います。</p>
+            </div>
+            <div class="slide__number">24</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-25" data-title="AIの勝手な実行・誤操作">
+          <div class="slide__frame">
+            <div class="side-pill">第3章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">リスク5</p>
+                <h2 class="title">AIの勝手な実行・誤操作 = <span class="accent">重要操作は人間承認</span></h2>
+              </div>
+
+              <div class="two-column">
+                <div>
+                  <p class="mini-label">起こること</p>
+                  <ul class="bullet-list">
+                    <li>メール送信、削除、公開、購入などが実際の事故につながる</li>
+                    <li>GitHubへの書き込みや本番公開が意図せず進むことがある</li>
+                    <li>AIのミスがそのまま実務事故になる段階に入っている</li>
+                  </ul>
+                </div>
+
+                <div>
+                  <p class="mini-label">基本ルール</p>
+                  <ul class="bullet-list">
+                    <li>送信・削除・公開・購入・振込は自動化しすぎない</li>
+                    <li>重要操作には必ず人間の承認を入れる</li>
+                    <li>実行範囲を限定し、権限を最小化する</li>
+                    <li>AIに全部の権限を渡さない</li>
+                  </ul>
+                </div>
+              </div>
+
+              <p class="callout">AIは「考えるだけのツール」から「行動するツール」へ。だから最後の承認は人間が持ちます。</p>
+            </div>
+            <div class="slide__number">25</div>
+          </div>
+        </section>
+
+        <section class="slide slide--chapter" id="slide-26" data-title="第4章扉">
+          <div class="slide__frame">
+            <div class="chapter-hero">
+              <div class="chapter-hero__number">4</div>
+              <div class="chapter-hero__body">
+                <p class="eyebrow">CHAPTER 04</p>
+                <h2 class="title title--chapter">学びをつなげて、<br><span class="accent">仕事で「できる」に変える</span></h2>
+                <p class="callout">単発の講座として学ぶだけでなく、複数のAIスキルを組み合わせることで、実務で作れるものと任せられることが一気に広がります。</p>
+                <div class="chapter-points">
+                  <span>調査・要約</span>
+                  <span>資料・コンテンツ制作</span>
+                  <span>自動化・エージェント</span>
+                  <span>集客・Web活用</span>
+                </div>
+              </div>
+            </div>
+            <div class="slide__number">26</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-27" data-title="講座を組み合わせるとできること 1">
+          <div class="slide__frame">
+            <div class="side-pill">第4章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">できること 01</p>
+                <h2 class="title">講座を組み合わせると、<span class="accent">実務の入口</span>が一気に増える</h2>
+              </div>
+
+              <div class="comparison-grid">
+                <article class="compare-card">
+                  <h3>調査・情報整理</h3>
+                  <ul class="mini-list">
+                    <li><strong>生成AIの歩き方 + NotebookLM</strong><br>大量の資料を読み込ませて、調査・要約・情報整理ができる</li>
+                    <li><strong>NotebookLM + AIエージェント</strong><br>社内資料や専門情報を答えてくれるAIアシスタントを作れる</li>
+                  </ul>
+                </article>
+                <article class="compare-card">
+                  <h3>企画・資料作成</h3>
+                  <ul class="mini-list">
+                    <li><strong>生成AIの歩き方 + NotebookLM + スライド作成</strong><br>調査から企画・資料作成までをAIで一気に進められる</li>
+                    <li><strong>スライド作成 + 画像生成AI</strong><br>見栄えのよい企画書・プレゼン・セミナー資料を自分で作れる</li>
+                  </ul>
+                </article>
+                <article class="compare-card">
+                  <h3>発信・コンテンツ制作</h3>
+                  <ul class="mini-list">
+                    <li><strong>画像生成AI + AI動画制作</strong><br>SNS・広告・イベント用の画像や動画コンテンツを作れる</li>
+                    <li><strong>AIマーケティング + 画像 + 動画</strong><br>SNS・広告・コンテンツ制作をAIで効率化できる</li>
+                  </ul>
+                </article>
+              </div>
+
+              <p class="callout">1つのツールだけで完結させるより、調査・構成・見せ方をつなげると「実際に使える成果物」に変わりやすくなります。</p>
+            </div>
+            <div class="slide__number">27</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-28" data-title="講座を組み合わせるとできること 2">
+          <div class="slide__frame">
+            <div class="side-pill">第4章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">できること 02</p>
+                <h2 class="title">制作だけでなく、<span class="accent">自動化や業務委任</span>にもつながる</h2>
+              </div>
+
+              <div class="comparison-grid">
+                <article class="compare-card">
+                  <h3>業務自動化・社内ツール</h3>
+                  <ul class="mini-list">
+                    <li><strong>GAS + 生成AI</strong><br>メール、スプレッドシート、集計などの定型業務を自動化できる</li>
+                    <li><strong>Google AI Studio + GAS</strong><br>自分や会社専用の業務ツールを作れる</li>
+                  </ul>
+                </article>
+                <article class="compare-card">
+                  <h3>AIに仕事を任せる</h3>
+                  <ul class="mini-list">
+                    <li><strong>AIエージェント + GAS</strong><br>「調べる → 判断する → 処理する」業務をAIに任せられる</li>
+                    <li><strong>複数講座を総合活用</strong><br>自分の仕事に合わせたAI活用の仕組みを企画・構築できる</li>
+                  </ul>
+                </article>
+                <article class="compare-card">
+                  <h3>Web・集客まで広げる</h3>
+                  <ul class="mini-list">
+                    <li><strong>AIホームページ制作 + 画像生成AI</strong><br>デザイン素材も含めて、自分でWebサイトやLPを作れる</li>
+                    <li><strong>AIマーケティング + HP制作</strong><br>集客用LPを作り、マーケティング施策まで自分で回せる</li>
+                  </ul>
+                </article>
+              </div>
+            </div>
+            <div class="slide__number">28</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-29" data-title="仕事を速くしたい人へ">
+          <div class="slide__frame">
+            <div class="side-pill">第4章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">やりたいこと別 01</p>
+                <h2 class="title">こんな人は、<span class="accent">この組み合わせ</span>から始めやすい</h2>
+              </div>
+
+              <div class="principle-grid">
+                <article class="principle-card">
+                  <h3>仕事を速くしたい</h3>
+                  <p><strong>生成AI + NotebookLM + GAS</strong></p>
+                  <p>情報収集、資料整理、メール作成、集計を効率化し、毎日の仕事をAIで時短する。</p>
+                </article>
+                <article class="principle-card">
+                  <h3>資料・コンテンツを作りたい</h3>
+                  <p><strong>NotebookLM + スライド + 画像生成</strong></p>
+                  <p>調査から構成、原稿、デザインまでつなげて、企画書やセミナー資料を自分で作る。</p>
+                </article>
+                <article class="principle-card">
+                  <h3>発信を強くしたい</h3>
+                  <p><strong>画像生成 + 動画生成 + AIマーケティング</strong></p>
+                  <p>SNS画像、動画、投稿企画、コピー制作まで回して、発信を継続しやすくする。</p>
+                </article>
+              </div>
+
+              <p class="footer-note">「どのAIが最強か」ではなく、「自分の仕事で何を作りたいか」から逆算すると選びやすくなります。</p>
+            </div>
+            <div class="slide__number">29</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-30" data-title="AIに仕事を任せたい人へ">
+          <div class="slide__frame">
+            <div class="side-pill">第4章</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">やりたいこと別 02</p>
+                <h2 class="title">一歩先は、<span class="accent">自分専用ツールとAI委任</span>へ進む</h2>
+              </div>
+
+              <div class="principle-grid">
+                <article class="principle-card">
+                  <h3>自分用のツールを作りたい</h3>
+                  <p><strong>Google AI Studio + GAS</strong></p>
+                  <p>入力フォーム、集計ツール、業務支援ツールなど、欲しいツールを自分で作れる。</p>
+                </article>
+                <article class="principle-card">
+                  <h3>AIに仕事を任せたい</h3>
+                  <p><strong>NotebookLM + AIエージェント + GAS</strong></p>
+                  <p>資料を調べる、判断する、処理する流れをつなげて、AIアシスタントやAIエージェントを作る。</p>
+                </article>
+                <article class="principle-card">
+                  <h3>AIで仕事・サービスを作りたい</h3>
+                  <p><strong>HP制作 + AIエージェント + AIマーケティング</strong></p>
+                  <p>Webサイト、AI機能、集客導線まで組み合わせて、AIを使ったサービスを自分で形にする。</p>
+                </article>
+              </div>
+            </div>
+            <div class="slide__number">30</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-31" data-title="最後に">
+          <div class="slide__frame">
+            <div class="side-pill">最後に</div>
+            <div class="slide__main">
+              <div class="slide__header">
+                <p class="eyebrow">LAST MESSAGE</p>
+                <h2 class="title">全部を追いかけなくていい。<span class="accent">自分に必要なAIから始めればいい</span></h2>
+              </div>
+
+              <div class="principle-grid">
+                <article class="principle-card">
+                  <h3>まずは使ってみる</h3>
+                  <p>完璧な理解より、小さく試して経験値を積むことがいちばん大切です。</p>
+                </article>
+                <article class="principle-card">
+                  <h3>組み合わせる</h3>
+                  <p>調査、資料作成、発信、自動化、エージェントを必要に応じてつなげていく。</p>
+                </article>
+                <article class="principle-card">
+                  <h3>最後は人が決める</h3>
+                  <p>方向づけと最終判断を人が持つことで、AIは右腕として強くなります。</p>
+                </article>
+              </div>
+
+              <p class="callout">情報に振り回されず、AIを自分の右腕として使いこなす。そのための最初の一歩を、今日ここから始めましょう。</p>
+            </div>
+            <div class="slide__number">31</div>
+          </div>
+        </section>
+
+        <section class="slide" id="slide-32" data-title="メッセージ">
+          <div class="slide__frame">
+            <div class="side-pill">メッセージ</div>
+            <div class="slide__main">
+              <figure class="art-panel art-panel--plain art-panel--message">
+                <img
+                  class="slide-illustration slide-illustration--message"
+                  src="./images/message.png"
+                  alt="AIを活用しながら前向きにステップアップしていく人物のメッセージイラスト"
+                >
+              </figure>
+            </div>
+            <div class="slide__number">32</div>
+          </div>
+        </section>
+      </main>
+
+      <div class="deck-controls" aria-label="スライド操作">
+        <button class="nav-button" type="button" data-action="prev">前へ</button>
+        <button class="nav-button" type="button" data-action="next">次へ</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
